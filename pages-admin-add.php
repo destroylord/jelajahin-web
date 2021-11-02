@@ -151,7 +151,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_bind_param($stmt, "s", $param_jenis_kelamin);
                 
             // Set parameters
-            $param_jenis_kelamin = trim($_POST["jenis_kelamin"]);
+            // $param_jenis_kelamin = trim($_POST["jenis_kelamin"]);
                 
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
