@@ -80,8 +80,8 @@
 													echo "<td>" . $row['phone'] . "</td>";
 													echo "<td>" . $row['jabatan'] . "</td>";
 													echo "<td >";
-														echo "<a href='update-admin.php? id=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle' data-feather='edit-3' style='color: black;'></span></a>";
-														echo "<a href='delete-admin.php? id=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle' data-feather='trash' style='color: black;'></span></a>";
+														echo "<a href='update-admin.php?id=". $row['name'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle' data-feather='edit-3' style='color: black;'></span></a>";
+														echo "<a href='delete-admin.php?id=". $row['name'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='trash' style='color: black;'></span></a>";
 													echo "</td>";
 												echo "</tr>";
 												}

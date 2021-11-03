@@ -7,47 +7,260 @@ $name = $email = $username = $phone = $jenis_kelamin = $jabatan = $password = $c
 $name_err = $email_err = $username_err = $phone_err = $jenis_kelamin_err = $jabatan_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
-if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
+if(isset($_POST["id_admin"]) && !empty($_POST["id_admin"])){
     // Get hidden input value
-    $uuid_admin = $_POST["uuid_admin"];
+    $id_admin = $_POST["id_admin"];
     
     // Validate name
-    $input_name = trim($_POST["name"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
+    if(empty(trim($_POST["name"]))){
+        $name_err = "Please enter your name.";
     } else{
-        $name = $input_name;
+    // Prepare a select statement
+    $sql = "SELECT id_admin FROM admin WHERE name = ?";
+            
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_name);
+                
+            // Set parameters
+            $param_name = trim($_POST["name"]);
+                
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                    
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $name_err = "This name is already taken.";
+                } else{
+                    $name = trim($_POST["name"]);
+                }
+            
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    // Validate email
+    if(empty(trim($_POST["email"]))){
+        $email_err = "Please enter your email.";
+    } else{
+    // Prepare a select statement
+    $sql = "SELECT id_admin FROM admin WHERE email = ?";
+            
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_email);
+                
+            // Set parameters
+            $param_email = trim($_POST["email"]);
+                
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                    
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $email_err = "This email is already taken.";
+                } else{
+                    $email = trim($_POST["email"]);
+                }
+            
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    // Validate phone
+    if(empty(trim($_POST["phone"]))){
+        $phone_err = "Please enter your phone.";
+    } else{
+    // Prepare a select statement
+    $sql = "SELECT id_admin FROM admin WHERE phone = ?";
+            
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_phone);
+                
+            // Set parameters
+            $param_phone = trim($_POST["phone"]);
+                
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                    
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $phone_err = "This phone is already taken.";
+                } else{
+                    $phone = trim($_POST["phone"]);
+                }
+            
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    // Validate username
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter your username.";
+    } else{
+        // Prepare a select statement
+        $sql = "SELECT id_admin FROM admin WHERE username = ?";
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_username);
+            
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $username_err = "This username is already taken.";
+                } else{
+                    $username = trim($_POST["username"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
     }
     
-    // Validate address address
-    $input_address = trim($_POST["address"]);
-    if(empty($input_address)){
-        $address_err = "Please enter an address.";     
+    // Validate jenis_kelamin
+    if(empty(isset($_POST["jenis_kelamin"]))){
+        $jenis_kelamin_err = "Please enter your jenis kelamin.";
     } else{
-        $address = $input_address;
+    // Prepare a select statement
+    $sql = "SELECT id_admin FROM admin WHERE jenis_kelamin = ?";
+            
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_jenis_kelamin);
+                
+            // Set parameters
+            $param_jenis_kelamin = isset($_POST["jenis_kelamin"]);
+                
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                    
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $jenis_kelamin_err = "This jenis kelamin is already taken.";
+                } else{
+                    $jenis_kelamin = isset($_POST["jenis_kelamin"]);
+                }
+            
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    // Validate jabatan
+    if(empty(trim($_POST["jabatan"]))){
+        $jabatan_err = "Please enter your jabatan.";
+    } else{
+    // Prepare a select statement
+    $sql = "SELECT id_admin FROM admin WHERE jabatan = ?";
+            
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_jabatan);
+                
+            // Set parameters
+            $param_jabatan = trim($_POST["jabatan"]);
+                
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                    
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $jabatan_err = "This jabatan is already taken.";
+                } else{
+                    $jabatan = trim($_POST["jabatan"]);
+                }
+            
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    // Validate password
+    if(empty(trim($_POST["password"]))){
+        $password_err = "Please enter your password.";
+    } else{
+    // Prepare a select statement
+    $sql = "SELECT id_admin FROM admin WHERE password = ?";
+            
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_password);
+                
+            // Set parameters
+            $param_password = trim($_POST["password"]);
+                
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                    
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $password_err = "Please enter your password.";     
+                } elseif(strlen(trim($_POST["password"])) < 6){
+                    $password_err = "Password must have atleast 6 characters.";
+                } else{
+                    $password = trim($_POST["password"]);
+                }
+            
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
     }
     
-    // Validate salary
-    $input_salary = trim($_POST["salary"]);
-    if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";     
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Please enter a positive integer value.";
+    // Validate confirm_password
+    if(empty(trim($_POST["confirm_password"]))){
+        $confirm_password_err = "Please confirm password.";     
     } else{
-        $salary = $input_salary;
+        $confirm_password = trim($_POST["confirm_password"]);
+        if(empty($password_err) && ($password != $confirm_password)){
+            $confirm_password_err = "Password did not match.";
+        }
     }
-    
+
     // Check input errors before inserting in database
     if(empty($name_err) && empty($email_err) && empty($username_err) && empty($phone_err) && empty($jenis_kelamin_err) && 
     empty($jabatan_err) && empty($password_err) && empty($confirm_password_err)){
         // Prepare an update statement
-        $sql = "UPDATE admin SET name=?, email=?, username=?, phone=?, jenis_kelamin=?, jabatan=?, password=? WHERE uuid_admin=?";
+        $sql = "UPDATE admin SET name=?, email=?, username=?, phone=?, jenis_kelamin=?, jabatan=?, password=? WHERE id_admin=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssi", $param_name, $param_name, $param_email, $param_username, $param_phone, $param_jenis_kelamin, $param_jabatan, $param_password, $param_uuid_admin);
+            mysqli_stmt_bind_param($stmt, "sssssssi", $param_name, $param_email, $param_username, $param_phone, $param_jenis_kelamin, $param_jabatan, $param_password, $param_id_admin);
             
             // Set parameters
             $param_name = $name;
@@ -56,7 +269,8 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
             $param_phone = $phone;
             $param_jenis_kelamin = $jenis_kelamin;
             $param_jabatan = $jabatan;
-            $param_uuid_admin = $uuid_admin;
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            $param_id_admin = $id_admin;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -75,19 +289,20 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
     // Close connection
     mysqli_close($link);
 } else{
+
     // Check existence of id parameter before processing further
-    if(isset($_GET["uuid_admin"]) && !empty(trim($_GET["uuid_admin"]))){
+    if(isset($_GET["id_admin"]) && !empty(trim($_GET["id_admin"]))){
         // Get URL parameter
-        $uuid_admin =  trim($_GET["uuid_admin"]);
+        $id_admin =  trim($_GET["id_admin"]);
         
         // Prepare a select statement
-        $sql = "SELECT * FROM admin WHERE uuid_admin = ?";
+        $sql = "SELECT * FROM admin WHERE id_admin = ?";
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "i", $param_uuid_admin);
+            mysqli_stmt_bind_param($stmt, "i", $param_id_admin);
             
             // Set parameters
-            $param_uuid_admin = $uuid_admin;
+            $param_id_admin = $id_admin;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -220,7 +435,7 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 				</div>
 				<!-- right code ends here -->
             </div>
-            <input type="hidden" name="uuid_admin" value="<?php echo $uuid_admin; ?>"/>
+            <input type="hidden" name="id_admin" value="<?php echo $id_admin; ?>"/>
             <input type="submit" class="btn btn-primary mt-3" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
             <a href="pages-admin.php" class="btn btn-danger mt-3">Cancel</a>
         </div>

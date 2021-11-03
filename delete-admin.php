@@ -1,18 +1,18 @@
 <?php
 // Process delete operation after confirmation
-if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
+if(isset($_POST["id_admin"]) && !empty($_POST["id_admin"])){
     // Include conection file
     require_once "conection.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM admin WHERE uuid_admin = ?";
+    $sql = "DELETE FROM admin WHERE id_admin = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_uuid_admin);
+        mysqli_stmt_bind_param($stmt, "i", $param_id_admin);
         
         // Set parameters
-        $param_uuid_admin = trim($_POST["uuid_admin"]);
+        $param_id_admin = trim($_POST["id_admin"]);
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
@@ -30,9 +30,9 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
     // Close connection
     mysqli_close($link);
 } else{
-    // Check existence of uuid_admin parameter
-    if(empty(trim($_GET["uuid_admin"]))){
-        // URL doesn't contain uuid_admin parameter. Redirect to error page
+    // Check existence of id_admin parameter
+    if(empty(trim($_GET["id_admin"]))){
+        // URL doesn't contain id_admin parameter. Redirect to error page
         header("location: error.php");
         exit();
     }
@@ -61,7 +61,7 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
                     </div>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger fade in">
-                            <input type="hidden" name="uuid_admin" value="<?php echo trim($_GET["uuid_admin"]); ?>"/>
+                            <input type="hidden" name="id_admin" value="<?php echo trim($_GET["id_admin"]); ?>"/>
                             <p>Are you sure you want to delete this record?</p><br>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
