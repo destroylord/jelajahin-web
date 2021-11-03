@@ -3,8 +3,8 @@
 require_once "conection.php";
  
 // Define variables and initialize with empty values
-$name = $email = $username = $phone = $jenis_kelamin = $jabatan = $password = "";
-$name_err = $email_err = $username_err = $phone_err = $jenis_kelamin_err = $jabatan_err = $password_err = "";
+$name = $email = $username = $phone = $jenis_kelamin = $jabatan = $password = $confirm_password = "";
+$name_err = $email_err = $username_err = $phone_err = $jenis_kelamin_err = $jabatan_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -141,7 +141,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Validate jenis_kelamin
     if(empty(trim($_POST["jenis_kelamin"]))){
-        $jenis_kelamin_err = "Please enter your jenis_kelamin.";
+        $jenis_kelamin_err = "Please enter your gender.";
     } else{
     // Prepare a select statement
     $sql = "SELECT id FROM admin WHERE jenis_kelamin = ?";
@@ -151,7 +151,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_bind_param($stmt, "s", $param_jenis_kelamin);
                 
             // Set parameters
-            // $param_jenis_kelamin = trim($_POST["jenis_kelamin"]);
+            $param_jenis_kelamin = trim($_POST["jenis_kelamin"]);
                 
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -159,7 +159,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 mysqli_stmt_store_result($stmt);
                     
                 if(mysqli_stmt_num_rows($stmt) == 1){
-                    $jenis_kelamin_err = "This jenis_kelamin is already taken.";
+                    $jenis_kelamin_err = "This gender is already taken.";
                 } else{
                     $jenis_kelamin = trim($_POST["jenis_kelamin"]);
                 }
@@ -239,10 +239,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Close statement
         mysqli_stmt_close($stmt);
     }
+
+    if(empty(trim($_POST["confirm_password"]))){
+        $confirm_password_err = "Please confirm password.";     
+    } else{
+        $confirm_password = trim($_POST["confirm_password"]);
+        if(empty($password_err) && ($password != $confirm_password)){
+            $confirm_password_err = "Password did not match.";
+        }
+    }
     
     // Check input errors before inserting in database
     if(empty($name_err) && empty($email_err) && empty($username_err) && empty($phone_err) && empty($jenis_kelamin_err) && 
-    empty($jabatan_err) && empty($password_err)){
+    empty($jabatan_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO admin (name, email, username, phone, jenis_kelamin, jabatan, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -348,39 +357,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 							<div class="col-lg-6">
 								<div class=" form-group">
                                     <div class="mb-3 <?php echo (!empty($jenis_kelamin_err)) ? 'has-error' : ''; ?>">
-                                    <label class=" form-label" style="color: black;"><strong>Jenis Kelamin</strong></label>
-										<div class="mb-3" >
-											<div class="form-control-lg form-control">
-												<label class="form-check form-check-inline">
-													<input class="form-check-input" type="radio" name="jenis_kelamin" 
-                                                    value="laki-laki" <?php echo ($jenis_kelamin == 'laki-laki') ? "checked": "" ?>>
-													<span class="form-check-label">Laki-Laki</span>
-												</label>
-												<label class="form-check form-check-inline">
-													<input class="form-check-input" type="radio" name="jenis_kelamin" 
-                                                    value="perempuan" <?php echo ($jenis_kelamin == 'perempuan') ? "checked": "" ?>>
-													<span class="form-check-label">Perempuan</span>
-												</label>
-											</div>
-                                            <span class="help-block"><?php echo $jenis_kelamin_err; ?></span>
-										</div>
+                                        <label class=" form-label" style="color: black;"><strong>Jenis Kelamin</strong></label>
+                                        <select name="jenis_kelamin" class="form-select mb-3" value="<?php echo $jenis_kelamin; ?>">
+                                            <option <?php echo ($jenis_kelamin == 'Laki-Laki') ? "selected": "" ?>>Laki-Laki</option>
+                                            <option <?php echo ($jenis_kelamin == 'Perempuan') ? "selected": "" ?>>Perempuan</option>
+                                        </select>
+                                        <span class="help-block"><?php echo $jenis_kelamin_err; ?></span>
                                     </div>
-										<div class="mb-3 <?php echo (!empty($jabatan_err)) ? 'has-error' : ''; ?>">
-                                            <label class=" form-label" style="color: black;"><strong>Jabatan</strong></label>
-                                            <select name="jabatan" class="form-select mb-3" value="<?php echo $jabatan; ?>">
-												<option <?php echo ($jabatan == 'Manager Team') ? "selected": "" ?>>Manager Team</option>
-												<option <?php echo ($jabatan == 'Developer') ? "selected": "" ?>>Developer</option>
-												<option <?php echo ($jabatan == 'Admin') ? "selected": "" ?>>Admin</option>
-												<option <?php echo ($jabatan == 'Admin Manager') ? "selected": "" ?>>Admin Manager</option>
-											</select>
-											<span class="help-block"><?php echo $jabatan_err; ?></span>
-                                        </div>
-                                        <div class="mb-3 <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                                            <label class=" form-label" style="color: black;"><strong>Password</strong></label>
-                                            <input class="form-control form-control-lg" type="Password" name="password" placeholder="Enter your password" value="<?php echo $password; ?>">
-												<span class="help-block"><?php echo $password_err; ?></span>
-                                        </div>
-										
+                                    <div class="mb-3 <?php echo (!empty($jabatan_err)) ? 'has-error' : ''; ?>">
+                                        <label class=" form-label" style="color: black;"><strong>Jabatan</strong></label>
+                                        <select name="jabatan" class="form-select mb-3" value="<?php echo $jabatan; ?>">
+                                            <option <?php echo ($jabatan == 'Manager Team') ? "selected": "" ?>>Manager Team</option>
+                                            <option <?php echo ($jabatan == 'Developer') ? "selected": "" ?>>Developer</option>
+                                            <option <?php echo ($jabatan == 'Admin') ? "selected": "" ?>>Admin</option>
+                                            <option <?php echo ($jabatan == 'Admin Manager') ? "selected": "" ?>>Admin Manager</option>
+                                        </select>
+                                        <span class="help-block"><?php echo $jabatan_err; ?></span>
+                                    </div>
+                                    <div class="mb-3 <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                                        <label class=" form-label" style="color: black;"><strong>Password</strong></label>
+                                        <input class="form-control form-control-lg" type="Password" name="password" placeholder="Enter your password" value="<?php echo $password; ?>">
+                                            <span class="help-block"><?php echo $password_err; ?></span>
+                                    </div>
+                                    <div class="mb-3 <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                                        <label class=" form-label" style="color: black;"><strong>Confirm Password</strong></label>
+                                        <input class="form-control form-control-lg" type="password" name="confirm_password" placeholder="Enter your password again." value="<?php echo $confirm_password; ?>">
+                                            <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                    </div>
 								</div>
 							</div>
 							<!-- right code ends here -->
