@@ -1,17 +1,19 @@
 <?php
 // Include conection file
 require_once "conection.php";
-require "libs/composer/vendor/autoload.php";
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
-
+function uuid(){
+    $data = random_bytes(16);
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); 
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); 
+    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+}
 // Define variables and initialize with empty values
 $uuid_admin = $name = $email = $username = $phone = $gender = $jabatan = $password = $confirm_password = "";
 $uuid_admin_err = $name_err = $email_err = $username_err = $phone_err = $gender_err = $jabatan_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $uuid = Uuid::uuid4()->toString();
+    $uuid_admin = uuid();
 
     // Validate name
     if(empty(trim($_POST["name"]))){
@@ -144,69 +146,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Validate gender
-    if(empty(trim($_POST["gender"]))){
+    if(empty(isset($_POST["gender"]))){
         $gender_err = "Please enter your jenis kelamin.";
     } else{
-    // Prepare a select statement
-    $sql = "SELECT uuid_admin FROM admin WHERE gender = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_gender);
-                
-            // Set parameters
-            $param_gender = trim($_POST["gender"]);
-                
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-                    
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $gender_err = "This jenis kelamin is already taken.";
-                } else{
-                    $gender = trim($_POST["gender"]);
-                }
-            
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-        // Close statement
-        mysqli_stmt_close($stmt);
+        $gender = trim($_POST["gender"]);
     }
 
     // Validate jabatan
-    if(empty(trim($_POST["jabatan"]))){
-        $jabatan_err = "Please enter your jabatan.";
+    if(empty(trim($_POST["jabatan"]))){ 
+        $jabatan_err = "This jabatan is already taken.";
     } else{
-    // Prepare a select statement
-    $sql = "SELECT uuid_admin FROM admin WHERE jabatan = ?";
-            
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_jabatan);
-                
-            // Set parameters
-            $param_jabatan = trim($_POST["jabatan"]);
-                
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-                    
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $jabatan_err = "This jabatan is already taken.";
-                } else{
-                    $jabatan = trim($_POST["jabatan"]);
-                }
-            
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-        // Close statement
-        mysqli_stmt_close($stmt);
+        $jabatan = trim($_POST["jabatan"]);
     }
+            
 
     // Validate password
     if(empty(trim($_POST["password"]))){
@@ -265,7 +217,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_bind_param($stmt, "isssssss", $param_uuid_admin, $param_name, $param_email, $param_username, $param_phone, $param_gender,$param_jabatan, $param_password);
             
             // Set parameters
-            $param_uuid_admin = $uuid;
+            $param_uuid_admin = $uuid_admin;
             $param_name = $name;
             $param_email = $email;
             $param_username = $username;
