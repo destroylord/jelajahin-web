@@ -10,24 +10,24 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/logo.png" />
+	<link rel="shortcut icon" href="../img/icons/logo.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
 	<title>Restaurant Page</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 	<div class="wrapper" >
 	<?php
-	include "sidebar.php";
+	include "../sidebar.php";
 	?>
 		<div class="main" style="background-color: #E5E5E5;">
 			<?php
-				include "navigation.php";
+				include "../navigation.php";
 			?>
 
 			<main class="content">
@@ -39,7 +39,7 @@
 								<div class="card-body">
 								<?php
 									// Include config file
-									require_once "conection.php";
+									require_once "../conection.php";
 
 									// Attempt select query execution
 									$sql = "SELECT * FROM restaurant";
@@ -59,7 +59,7 @@
 											echo"<tbody>";
 												while ($row = mysqli_fetch_array($result)){
 												echo "<tr>";
-													echo "<td>" . $row['file'] . "</td>";
+													echo "<td>" . $row['image_url'] . "</td>";
 													echo "<td>" . $row['name'] . "</td>";
 													echo "<td>" . $row['address'] . "</td>";
 													echo "<td>" . $row['price_range'] . "</td>";
@@ -96,7 +96,7 @@
 		</div>
 	</div>
 
-	<script src="js/app.js"></script>
+	<script src="../js/app.js"></script>
 
 </body>
 

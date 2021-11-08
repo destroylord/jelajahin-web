@@ -1,16 +1,20 @@
 <?php
 // Include conection file
-require_once "conection.php";
-function uuid(){
-    $data = random_bytes(16);
-    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); 
-    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); 
+require_once "../conection.php";
+function uuid()
+{
+    if (function_exists('com_create_guid') === true)
+        return trim(com_create_guid(), '{}');
+
+    $data = openssl_random_pseudo_bytes(16);
+    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
     return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 }
 // Define variables and initialize with empty values
 $uuid_admin = $name = $email = $username = $phone = $gender = $jabatan = $password = $confirm_password = "";
 $uuid_admin_err = $name_err = $email_err = $username_err = $phone_err = $gender_err = $jabatan_err = $password_err = $confirm_password_err = "";
- 
+
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $uuid_admin = uuid();
@@ -256,13 +260,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
 	<title>Add Admin</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -270,12 +274,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div class="wrapper" >
 
 	<?php
-	include "sidebar.php";
+	include "../sidebar.php";
 	?>
 
 		<div class="main mx-auto" style="background-color: #E5E5E5;">
 			<?php
-				include "navigation.php";
+				include "../navigation.php";
 			?>
 
 			<main class="content">
@@ -364,7 +368,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		</div>
 	</div>
 
-	<script src="js/app.js"></script>
+	<script src="../js/app.js"></script>
 </body>
 
 </html>

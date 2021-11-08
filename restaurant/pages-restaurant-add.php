@@ -1,6 +1,6 @@
 <?php
 // Include conection file
-require_once "conection.php";
+require_once "../conection.php";
 
 session_start();
 
@@ -141,26 +141,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/logo.png" />
+	<link rel="shortcut icon" href="../img/icons/logo.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
 	<title>menu page Restaurant</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaftet@1.7.1/dist/leaflet.css">
 </head>
 
 <body>
 
 	<div class="wrapper" >
 	<?php
-	include "sidebar.php";
+	include "../sidebar.php";
 	?>
 
 		<div class="main mx-auto" style="background-color: #E5E5E5;">
 			<?php
-				include "navigation.php";
+				include "../navigation.php";
 				
 			?>
 
@@ -286,15 +288,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                             <input class="form-control form-control-lg" type="url" name="distric" value="<?php echo $distric; ?>">
 												<span class="help-block"><?php echo $distric_err; ?></span>
 										</div>
+										<div id="mapid" style= "width: 100%; height:600px;"></div>
+										<script>
+											var mymap = L.map('mapid').setView([])
+										</script>
 									</div>
 								</div>
-								<h6 class="subtitle text-muted">Pin your restaurant address</h6>
-								<div class="card">
-									<div class="col-12">
-									<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d32657810.673729356!2d99.40134409128075!3d-2.3195791943982096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c4c07d7496404b7%3A0xe37b4de71badf485!2sIndonesia!5e0!3m2!1sen!2sid!4v1635855142790!5m2!1sen!2sid" 
-										width="1000" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-									</div>
-								</div>
+								
 							</div>
 
 							<div class="input-group mb-3 <?php echo (!empty($file_err)) ? 'has-error' : ''; ?>">
@@ -306,27 +306,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 						<a href="pages-restaurant.php" class="btn btn-danger mt-3">Cancel</a>
 					</form>
 				</div>
+				
 			</main>
 		</div>
 	</div>
 
-	<script src="js/app.js"></script>
-	<script>
-		function initMaps() {
-			var defaultMap = {
-				zoom: 14,
-				center: {
-					lat: 40.712784,
-					lng: -74.005941
-				},
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			new google.maps.Map(document.getElementById("default_map"), defaultMap);
-		}
-	</script>
-
-	<script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY" async defer></script>
-
+	<script src="../js/app.js"></script>
 </body>
 
 </html>

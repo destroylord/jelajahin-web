@@ -1,6 +1,6 @@
 <?php
 // Include conection file
-require_once "conection.php";
+require_once "../conection.php";
  
 // Define variables and initialize with empty values
 $uuid_admin = $name = $email = $username = $phone = $jenis_kelamin = $jabatan = $password = $confirm_password = "";
