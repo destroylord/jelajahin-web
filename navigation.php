@@ -13,8 +13,8 @@
 	<div class="navbar-collapse collapse">
 		<ul class="navbar-nav navbar-align">
 			<?php
-				include "../request.php";
-				include "../avatar.php"; 
+				include_once "request.php";
+				include_once "avatar.php"; 
 			?>
 		</ul>
 	</div>

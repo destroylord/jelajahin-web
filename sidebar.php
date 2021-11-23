@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar js-sidebar" >
 			<div class="sidebar-content js-simplebar" >
 				<a class="sidebar-brand" href="index.php" style="background-color:#9ED763;">
-					<span class="align-middle"><img src="../img/avatars/logo1.png" alt="JelajahIn" class="" width="95" height="23" /></span>
+					<span class="align-middle"><img src="img/avatars/logo1.png" alt="JelajahIn" class="" width="95" height="23" /></span>
 				</a>
 
 				<ul class="sidebar-nav" style="background-color: white;" >
@@ -16,7 +16,7 @@
             			</a>
 						<ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="../admin/pages-admin.php" class="nav-link px-0"> 
+                                <a href="admin/pages-admin.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Admin Data</span> 
 								</a>
                             </li>
