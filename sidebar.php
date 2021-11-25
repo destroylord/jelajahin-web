@@ -55,10 +55,22 @@
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-hotel.html"style="background-color: white;">
+						<a class="sidebar-link" href="#submenu4"data-bs-toggle="collapse" style="background-color: white;">
 							<i class="align-middle" data-feather="book" style="color: black;"></i> 
 							<span class="ms-1 d-none d-sm-inline align-middle"style="color: black;">Hotel</span>
 						</a>
+						<ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="../penginapan/pages-penginapan.php" class="nav-link px-0"> 
+									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">penginapan Data</span> 
+								</a>
+                            </li>
+                            <li>
+                                <a href="../penginapan/pages-penginapan-add.php" class="nav-link px-0"> 
+									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Add penginapan</span>
+								</a>
+                            </li>
+                        </ul>
 					</li>
 
 					<li class="sidebar-item">

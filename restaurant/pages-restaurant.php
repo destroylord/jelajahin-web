@@ -33,6 +33,7 @@
 			<main class="content">
 				<div class="container-fluid p-0" >
 					<h1 class="mb-3"><strong>Restaurant In Bondowoso</strong></h1>
+					<a href="pages-restaurant-add.php" class="btn btn-success mb-1" style="">Add Restaurant</a>
 					<div class="row">
 						<div class="col-12">
 							<div class="card" data-bs-spy="scroll">
@@ -67,8 +68,8 @@
 														echo "<a href='pages-menu-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
 													echo "</td>";
 													echo "<td>";
-														echo "<a href='update.php? id=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";
-														echo "<a href='delete.php? id=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
+														echo "<a href='update-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";
+														echo "<a href='delete-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
 													echo "</td>";
 												echo "</tr>";
 												}
