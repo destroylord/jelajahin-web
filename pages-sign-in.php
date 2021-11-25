@@ -4,7 +4,7 @@ session_start();
  
 // Check if the user is already logged in, if yes then redirect him to pages-restaurant page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-  header("location: restaurant/pages-restaurant.php");
+  header("location: index.php");
   exit;
 }
  
