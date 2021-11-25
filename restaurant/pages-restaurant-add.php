@@ -16,8 +16,8 @@ function uuid($data  =  null) {
 session_start();
 
 // Define variables and initialize with empty values
-$uuid_restaurant = $name = $description = $price_range = $food_type = $restaurant_type = $phone = $website = $business_time_open = $business_time_closes = $file =  $latitude = $longitude = "";
-$uuid_restaurant_err = $name_err = $description_err = $price_range_err = $food_type_err = $restaurant_type_err = $phone_err = $website_err = $business_time_open_err = $business_time_closes_err = $file_err = $latitude_err = $longitude_err = "";
+$uuid_restaurant = $name = $description = $price_range = $food_type = $restaurant_type = $phone = $website = $business_time_open = $business_time_closes = $file = "";
+$uuid_restaurant_err = $name_err = $description_err = $price_range_err = $food_type_err = $restaurant_type_err = $phone_err = $website_err = $business_time_open_err = $business_time_closes_err = $file_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -111,25 +111,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Check input errors before inserting in database
     if(empty($uuid_restaurant_err) && empty($name_err) && empty($description_err) && empty($price_range_err) && empty($food_type_err) && empty($restaurant_type_err) 
-	&& empty ($phone_err) && empty($website_err) && empty($business_time_err) && empty($phone_err)){
+	&& empty ($phone_err) && empty($website_err) && empty($business_time_open_err) && empty($business_time_closes_err) && empty($file_err)){
         // Prepare an insert statement
         $sql = "INSERT INTO restaurant (uuid_restaurant, name, description, price_range, food_type, restaurant_type, phone, website, business_time, file ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "isssssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_range, $param_food_type, $param_restaurant_type, $param_phone, $param_website, $param_business_time, $param_file);
+            mysqli_stmt_bind_param($stmt, "isssssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_range, $param_food_type, $param_restaurant_type, $param_phone, $param_website, $param_business_time_open, $param_business_time_closes, $param_file);
 
             // Set parameters
-			$param_uuid_restaurant = $uuid_restaurant;
-            $param_name = $name;
-            $param_description	= $description;
-            $param_price_range	= $price_range;
-			$param_food_type	= $food_type;
-			$param_restaurant_type = $restaurant_type;
-			$param_phone		= $phone;
-			$param_website		= $website;
-			$param_business_time_open= $business_time_open;
-			$param_file			= $file;
+			$param_uuid_restaurant		= $uuid_restaurant;
+            $param_name					= $name;
+            $param_description			= $description;
+            $param_price_range			= $price_range;
+			$param_food_type			= $food_type;
+			$param_restaurant_type 		= $restaurant_type;
+			$param_phone				= $phone;
+			$param_website				= $website;
+			$param_business_time_open	= $business_time_open;
+			$param_business_time_closes	= $business_time_closes;
+			$param_file					= $file;
 
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -261,16 +262,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 												<input class="form-control form-control-lg" type="url" name="website" placeholder="Enter your restaurant website" value="<?php echo $website; ?>">
 													<span class="help-block"><?php echo $website_err; ?></span>
 											</div>
-											<div class="mb-3 <?php echo (!empty($business_time_open_err)) ? 'has-error' : ''; ?>">
+											<div class="mb-3">
 												<label class="form-label"style="color: black;"><strong>Business Time</strong></label>
 												<div class="row ">
-													<div class="col-lg-6">
-												<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time; ?>">
-													<span class="help-block"><?php echo $business_time_open_err; ?></span>
+													<div class="col-lg-6 <?php echo (!empty($business_time_open_err)) ? 'has-error' : ''; ?> ">
+														<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time; ?>">
+														<span class="help-block"><?php echo $business_time_open_err; ?></span>
 													</div>
-													<div class="col-lg-6">
-												<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time; ?>">
-													<span class="help-block"><?php echo $business_time_closes_err; ?></span>
+													<div class="col-lg-6 <?php echo (!empty($business_time_closes_err)) ? 'has-error' : ''; ?>">
+														<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time; ?>">
+														<span class="help-block"><?php echo $business_time_closes_err; ?></span>
 													</div>
 												</div>
 											</div>

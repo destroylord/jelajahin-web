@@ -60,7 +60,7 @@
 											echo"<tbody>";
 												while ($row = mysqli_fetch_array($result)){
 												echo "<tr>";
-													echo "<td>" . $row['image_url'] . "</td>";
+													echo "<td>" . $row['file'] . "</td>";
 													echo "<td>" . $row['name'] . "</td>";
 													echo "<td>" . $row['address'] . "</td>";
 													echo "<td>" . $row['price_range'] . "</td>";
@@ -68,8 +68,8 @@
 														echo "<a href='pages-menu-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
 													echo "</td>";
 													echo "<td>";
-														echo "<a href='update-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";
-														echo "<a href='delete-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
+														echo "<a href='update-restaurant.php? uuid_restaurant=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";
+														echo "<a href='delete-restaurant.php? uuid_restaurant=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
 													echo "</td>";
 												echo "</tr>";
 												}

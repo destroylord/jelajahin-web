@@ -60,7 +60,7 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>Add Admin</title>
+	<title>Delete Admin</title>
 
 	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">

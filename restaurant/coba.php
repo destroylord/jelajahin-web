@@ -1,7 +1,6 @@
 <?php
 // Include conection file
 require_once "../conection.php";
-session_start();
 
 // Define variables and initialize with empty values
 $propinsi = $kabupaten =  $kecamatan = $kelurahan = "";

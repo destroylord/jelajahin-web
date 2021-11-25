@@ -48,7 +48,6 @@
 
 			<main class="content">
 				<div class="container-fluid p-0">
-
 					<h1 class="mb-3" style="font-weight: bold;">Admin In JelajahIn</h1>
 					<a href="pages-admin-add.php" class="btn btn-success mb-1" style="">Add Admin</a>
 					<div class="row">

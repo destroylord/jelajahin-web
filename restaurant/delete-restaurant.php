@@ -5,7 +5,7 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
     require_once "../conection.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM restaurant WHERE uuid_restaurant = ?";
+    $sql = "DELETE FROM 'restaurant' WHERE uuid_restaurant = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
@@ -42,6 +42,13 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
 <html lang="en">
 <head>
 <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        .wrapper{
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
@@ -53,9 +60,8 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>Add Admin</title>
+	<title>delete restaurant</title>
 
-	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -67,7 +73,7 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
                         <h1>Delete Record</h1>
                     </div>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="popups" onclick=>
+                        <div class="alert alert-danger fade in">
                             <input type="hidden" name="uuid_restaurant" value="<?php echo trim($_GET["uuid_restaurant"]); ?>"/>
                             <p>Are you sure you want to delete this record?</p><br>
                             <p>
