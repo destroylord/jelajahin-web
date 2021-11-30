@@ -17,6 +17,7 @@
   gtag('js', new Date());
   gtag('config', 'UA-159581532-5');
 </script>
+
 <meta name="description" content="A handy tool to get lat long from address, helps you to convert address to coordinates (latitude longitude) on map, also calculates the gps coordinates." />
 <link rel="canonical" href="https://www.latlong.net/convert-address-to-lat-long.html" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
@@ -57,7 +58,7 @@ mmr.bindPopup('0,0');
 mmr.addTo(mymap);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar',
 attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(mymap);
-sm(0,0,2);
+sm(-7.913402,113.822800,16);
 mymap.on('click', onMapClick);
 
 if (frmplace.attachEvent) {
@@ -85,5 +86,3 @@ document.getElementById("lat").value=lt;
 document.getElementById("lng").value=ln;
 }
 </script>
-</body>
-</html>
