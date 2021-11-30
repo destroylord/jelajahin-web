@@ -10,7 +10,11 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
+<<<<<<< HEAD
 	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
+=======
+	<link rel="shortcut icon" href="../img/icons/logo.png" />
+>>>>>>> 2c95b3901944ba6bf50a01aa8f6fb2a8dc83d9f2
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
