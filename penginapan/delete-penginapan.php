@@ -1,23 +1,23 @@
 <?php
 // Process delete operation after confirmation
-if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
+if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
     // Include conection file
     require_once "../conection.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM admin WHERE uuid_admin = ?";
+    $sql = "DELETE FROM restaurant WHERE uuid_restaurant = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_uuid_admin);
+        mysqli_stmt_bind_param($stmt, "i", $param_uuid_restaurant);
         
         // Set parameters
-        $param_uuid_admin = trim($_POST["uuid_admin"]);
+        $param_uuid_restaurant = trim($_POST["uuid_restaurant"]);
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
             // Records deleted successfully. Redirect to landing page
-            header("location: pages-admin.php");
+            header("location: pages-restaurant.php");
             exit();
         } else{
             echo "Oops! Something went wrong. Please try again later.";
@@ -30,9 +30,9 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
     // Close connection
     mysqli_close($link);
 } else{
-    // Check existence of uuid_admin parameter
-    if(empty(trim($_GET["uuid_admin"]))){
-        // URL doesn't contain uuid_admin parameter. Redirect to error page
+    // Check existence of uuid_restaurant parameter
+    if(empty(trim($_GET["uuid_restaurant"]))){
+        // URL doesn't contain uuid_restaurant parameter. Redirect to error page
         header("location: error.php");
         exit();
     }
@@ -42,13 +42,6 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 <html lang="en">
 <head>
 <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
-    </style>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
@@ -60,7 +53,7 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>Delete Admin</title>
+	<title>Add Admin</title>
 
 	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -74,12 +67,12 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
                         <h1>Delete Record</h1>
                     </div>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="alert alert-danger fade in">
-                            <input type="hidden" name="uuid_admin" value="<?php echo trim($_GET["uuid_admin"]); ?>"/>
+                        <div class="popups" onclick=>
+                            <input type="hidden" name="uuid_restaurant" value="<?php echo trim($_GET["uuid_restaurant"]); ?>"/>
                             <p>Are you sure you want to delete this record?</p><br>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="pages-admin.php" class="btn btn-default">No</a>
+                                <a href="pages-restaurant.php" class="btn btn-default">No</a>
                             </p>
                         </div>
                     </form>

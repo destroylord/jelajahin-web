@@ -1,94 +1,3 @@
-<?php
-// Include conection file
-require_once "conection.php";
-
-session_start();
-
-// Define variables and initialize with empty values
-$uuid_menu = $uuid_restaurant = $category = $name = $description = $price = "";
-$uuid_menu_err =$uuid_restaurant_err = $category_err = $name_err = $description_err = $price_err = "";
-
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-	// Validate category
-    if(empty(trim($_POST["category"]))){ 
-        $category_err = "This category is already taken.";
-    } else{
-        $category = trim($_POST["category"]);
-    }
-
-    // Validate name
-    $input_name = trim($_POST["name"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
-    }
-
-    // Validate description
-    $input_description = trim($_POST["description"]);
-    if(empty($input_description)){
-        $description_err = "Please enter an description.";
-    } else{
-        $description = $input_description;
-    }
-
-    // Validate price
-    $input_price = trim($_POST["price"]);
-    if(empty($input_price)){
-        $price_err = "Please enter the price amount.";
-    } elseif(!ctype_digit($input_price)){
-        $price_err = "Please enter a positive integer value.";
-    } else{
-        $price = $input_price;
-    }
-
-	// Validate image 
-	$input_image_url = trim($_POST["image_url"]);
-    if(empty($input_image_url)){
-        $image_url_err = "Please input the image_url.";
-    } else{
-        $image_url = $input_image_url;
-    }
-
-    // Check input errors before inserting in database
-    if(empty($uuid_menu_err) && empty($uuid_restaurant_err) && empty($category_err) && empty($name_err) && empty($description_err) && empty($price_err)){
-        // Prepare an insert statement
-        $sql = "INSERT INTO menu (uuid_menu, uuid_restaurant, category, name, description, price, image_url ) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "iissss", $param_uuid_menu, $param_uuid_restaurant, $param_category, $param_name, $param_description, $param_price, $param_image_url);
-
-            // Set parameters
-			$param_uuid_menu = $uuid_menu;
-			$param_uuid_restaurant = $uuid_restaurant;
-			$param_category = $category;
-            $param_name = $name;
-            $param_description	= $description;
-            $param_price_range	= $price;
-			$param_image_url	= $image_url;
-
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Records created successfully. Redirect to landing page
-                header("location: pages-restaurant.php");
-                exit();
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
-
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
-
-    // Close connection
-    mysqli_close($link);
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -101,13 +10,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>Food Menu page</title>
+	<title>Food Menu</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -115,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div class="wrapper" >
 
 	<?php
-	include "sidebar.php";
+	include "../sidebar.php";
 	?>
 
 		<div class="main" style="background-color: #E5E5E5;">
@@ -129,8 +38,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
 					<?php
-						include "request.php";
-						include "avatar.php"; 
+						include "../request.php";
+						include "../avatar.php"; 
 						?>
 					</ul>
 				</div>
@@ -139,121 +48,272 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			<main class="content">
 				<div class="container-fluid p-0">
 					<h1 class="mb-3" style="font-weight: bold;">Food Menu In The Restaurant</h1>
+					
+<?php
+// --- koneksi ke database
+require_once "../conection.php";
 
-					<!-- add menu -->
-					<form class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-						<div class="row">	
-							<!-- start code on the left side of the page -->
-							<div class="col-lg-6">
-								<div class="form-group">
-                                    <div class="mb-3 <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
-                                        <label class=" form-label" style="color: black;"><strong>Food Category</strong></label>
-                                        <select name="category" class="form-select" value="<?php echo $category; ?>">
-                                            <option <?php echo ($category == 'Makanan') ? "selected": "" ?>>Makanan</option>
-                                            <option <?php echo ($category == 'Minuman') ? "selected": "" ?>>Minuman</option>
-                                            <option <?php echo ($category == 'Paket Hemat') ? "selected": "" ?>>Paket Hemat</option>
-                                            <option <?php echo ($category == 'Dessert') ? "selected": "" ?>>Dessert</option>
-                                        </select>
-                                        <span class="help-block"><?php echo $category_err; ?></span>
-                                    </div>
-                                    <div class="mb-3 <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-                                        <label class=" form-label" style="color: black;"><strong>Food Name</strong></label>
-                                        <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Enter food name" value="<?php echo $name; ?>">
-                                            <span class="help-block"><?php echo $name_err; ?></span>        
-                                    </div>
-                                    <div class="mb-3 <?php echo (!empty($price_err)) ? 'has-error' : ''; ?> ">
-                                        <label class=" form-label" style="color: black;"><strong>price</strong></label>
-                                        <input class="form-control form-control-lg" type="price" name="price" placeholder="Enter food price" value="<?php echo $price; ?>">
-                                            <span class="help-block"><?php echo $price_err; ?></span>
-                                    </div>
-								</div>
-							</div>
-							<!-- left code ends here -->
-
-							<!-- start code on the right side of the page -->
-							<div class="col-lg-6">
-								<div class=" form-group">
-                                    <div class="mb-3">
-                                        <div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
-                                            <label class="form-label" style="color: black;"><strong>Food Description</strong></label>
-                                            <textarea class="form-control span12" rows="5" name="description" 
-                                            placeholder="Enter your Food description" value="<?php echo $description; ?>" ></textarea>
-												<span class="help-block"><?php echo $description_err; ?></span>
-                                        </div>
-                                        <div class="mb-3 <?php echo (!empty($image_file_err)) ? 'has-error' : ''; ?>">
-											<label class="form-label" style="color: black;"><strong>Food Image</strong></label>
-                                            <input type="file" class="input-group form-control" name="image_file" >
-                                        </div>
-                                    </div>
-								</div>
-							</div>
-							<!-- right code ends here -->
+// --- Fngsi tambah data (Create)
+function tambah($link){
+    
+    if (isset($_POST['submit'])){
+        $uuid_menu = time();
+        $category = $_POST['category'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $price  = $_POST['price'];
+        $image_url = $_POST['image_url'];
+        
+        if(!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($image_url)){
+            $sql = "INSERT INTO menu (uuid_menu, category, name, description, price, image_url) VALUES(".$uuid_menu.",'".$category."','".$name."','".$description."','".$price."','".$image_url."')";
+            $simpan = mysqli_query($link, $sql);
+            if($simpan && isset($_GET['aksi'])){
+                if($_GET['aksi'] == 'create'){
+                    header('location: pages-menu-restaurant.php');
+                }
+            }
+        } else {
+            $pesan = "Tidak dapat menyimpan, data belum lengkap!";
+        }
+    }
+    ?> 
+        <form class="container" action="" method="post">
+            <div class="row">	
+                <!-- start code on the left side of the page -->
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label class=" form-label" style="color: black;"><strong>Food Category</strong></label>
+                            <select name="category" class="form-select" value="">
+                                <option >Makanan</option>
+                                <option >Minuman</option>
+                                <option >Paket Hemat</option>
+                                <option >Dessert</option>
+                            </select>
                         </div>
-                       <input type="submit" class="btn btn-primary mt-2" name="submit" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
-                       <input type="submit" class="btn btn-danger mt-2" name="submit" value="Clear">
-                    </form>
+                        <div class="mb-3">
+                            <label class=" form-label" style="color: black;"><strong>Food Name</strong></label>
+                            <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Enter food name" value="">      
+                        </div>
+                        <div class="mb-3 ">
+                            <label class=" form-label" style="color: black;"><strong>price</strong></label>
+                            <input class="form-control form-control-lg" type="number" name="price" placeholder="Enter food price" value="">
+                        </div>
+                    </div>
+                </div>
+                <!-- left code ends here -->
+
+                <!-- start code on the right side of the page -->
+                <div class="col-lg-6">
+                    <div class=" form-group">
+                        <div class="mb-3">
+                            <div class="mb-3 ">
+                                <label class="form-label" style="color: black;"><strong>Food Description</strong></label>
+                                <textarea class="form-control span12" rows="5" name="description" 
+                                placeholder="Enter your Food description" value="" ></textarea>
+                            </div>
+                            <div class="mb-3 ">
+                                <label class="form-label" style="color: black;"><strong>Food Image</strong></label>
+                                <input type="file" class="input-group form-control" name="image_url" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right code ends here -->
+            </div>
+            <input type="submit" class="btn btn-primary mt-2" name="submit" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
+            <input type="reset" class="btn btn-danger mt-2" name="reset" value="Clear">
+        </form>
+    <?php
+}
+// --- Tutup Fngsi tambah data
 
 
-					<!-- list menu -->
-					<div class="row mt-3">
-						<div class="col-12">
-							<div class="card">
-								<div class="card-body">
-								<?php
-									// Include config file
-									require_once "conection.php";
-									// Attempt select query execution
-									$sql = "SELECT image_url, name, description, price FROM menu";
-									if($result = mysqli_query($link, $sql)){
-										if(mysqli_num_rows($result) > 0){
-										echo "<table class='table table-hover my-0'>";
-											echo "<thead>";
-												echo "<tr style='color: #388E3C;'>";
-													echo "<th>Photo</th>";
-													echo "<th class='d-none d-xl-table-cell'>Name</th>";
-													echo "<th class='d-none d-xl-table-cell'>Description</th>";
-													echo "<th>Price</th>";
-													echo "<th class='d-none d-md-table-cell'>Action</th>";
-												echo "</tr>";
-											echo "</thead>";
-											echo"<tbody>";
-												while ($row = mysqli_fetch_array($result)){
-												echo "<tr>";
-													echo "<td>" . $row['image_url'] . "</td>";
-													echo "<td>" . $row['name'] . "</td>";
-													echo "<td>" . $row['description'] . "</td>";
-													echo "<td>" . $row['price'] . "</td>";
-													echo "<td>";
-														echo "<a href='update.php? id=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle' data-feather='edit-3' style='color: black;'></span></a>";
-														echo "<a href='delete.php? id=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-3' data-feather='trash' style='color: black;'></span></a>";
-													echo "</td>";
-												echo "</tr>";
-												}
-											echo"</tbody>";
-										echo "</table>";
-										// Free result set
-										mysqli_free_result($result);
-									} else{
-										echo "<p class='align'><em>No records were found.</em></p>";
-										}
-									} else{
-										echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-										}
+// --- Fungsi Baca Data (Read)
+function tampil_data($link){
+    echo "<div class='row mt-5'>";
+        echo "<div class='col-12'>";
+            echo "<div class='card'>";
+                echo "<div class='card-body'>";
+                    $sql = "SELECT * FROM menu";
+                    $query = mysqli_query($link, $sql);
+                    
+                    echo "<table class='table table-hover my-0'>";
+                        echo "<thead>";
+                            echo "<tr style='color: #388E3C;'>";
+                                echo "<th>photo</th>";
+                                echo "<th>Nama</th>";
+                                echo "<th class='d-none d-xl-table-cell'>description</th>";
+                                echo "<th class='d-none d-xl-table-cell'>price</th>";
+                                echo "<th>category</th>";
+                                echo "<th class='d-none d-md-table-cell'>Action</th>";
+                            echo "</tr>";
+                        echo "</thead>";
+                        echo"<tbody>";
+                            while($data = mysqli_fetch_array($query)){
+                            ?>
+                                <tr>
+                                    <td><?php echo $data['image_url']; ?></td>
+                                    <td><?php echo $data['name']; ?></td>
+                                    <td><?php echo $data['description']; ?> Kg</td>
+                                    <td><?php echo $data['price']; ?> bulan</td>
+                                    <td><?php echo $data['category']; ?></td>
+                                    <td>
+                                        <a href="pages-menu-restaurant.php?aksi=update&uuid_menu=<?php echo $data['uuid_menu']; ?>&name=<?php echo $data['name']; ?>&description=<?php echo $data['description']; ?>&price=<?php echo $data['price']; ?>&category=<?php echo $data['category']; ?>&image_url=<?php echo $data['image_url']; ?>">Ubah</a> |
+                                        <a href="pages-menu-restaurant.php?aksi=delete&uuid_menu=<?php echo $data['uuid_menu']; ?>">Hapus</a>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                        echo "</tbody>";
+                    echo "</table>";
+                echo "</div>";
+            echo "</div>";
+        echo "</div>";    
+    echo "</div>";        
+}
+// --- Tutup Fungsi Baca Data (Read)
 
-									// Close connection
-									mysqli_close($link);
-								?>
-								</div>
-							</div>
-						</div>
-					</div>
 
+// --- Fungsi Ubah Data (Update)
+function ubah($link){
+    // ubah data
+    if(isset($_POST['btn_ubah'])){
+        $uuid_menu = $_POST['uuid_menu'];
+        $category = $_POST['category'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $price  = $_POST['price'];
+        $image_url = $_POST['image_url'];
+        
+        if(!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($image_url)){
+            $perubahan = "name='".$name."',description=".$description.", category=".$category.", price=".$price.",image_url='".$image_url."'";
+            $sql_update = "UPDATE menu SET ".$perubahan." WHERE uuid_menu=$uuid_menu";
+            $update = mysqli_query($link, $sql_update);
+            if($update && isset($_GET['aksi'])){
+                if($_GET['aksi'] == 'update'){
+                    header('location: pages-menu-restaurant.php');
+                }
+            }
+        } else {
+            $pesan = "Data tidak lengkap!";
+        }
+    }
+    
+    // tampilkan form ubah
+    if(isset($_GET['uuid_menu'])){
+        ?>
+            <a href="pages-menu-restaurant.php"> &laquo; Home</a> | 
+            <a href="pages-menu-restaurant.php?aksi=create"> (+) Tambah Data</a>
+            <hr>
+            
+            <form class="container" action="" method="post">
+            <div class="row">	
+                <!-- start code on the left side of the page -->
+                <input type="hidden" name="uuid_menu" value="<?php echo $_GET['uuid_menu'] ?>"/>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label class=" form-label" style="color: black;"><strong>Food Category</strong></label>
+                            <select name="category" class="form-select" value="<?php echo $_GET['category'] ?>">
+                                <option <?php echo ($category == 'Makanan') ? "selected": "" ?>>Makanan</option>
+                                <option <?php echo ($category == 'Minuman') ? "selected": "" ?>>Minuman</option>
+                                <option <?php echo ($category == 'Paket Hemat') ? "selected": "" ?>>Paket Hemat</option>
+                                <option <?php echo ($category == 'Dessert') ? "selected": "" ?>>Dessert</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class=" form-label" style="color: black;"><strong>Food Name</strong></label>
+                            <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Enter food name" value="<?php echo $_GET['name'] ?>">      
+                        </div>
+                        <div class="mb-3 ">
+                            <label class=" form-label" style="color: black;"><strong>price</strong></label>
+                            <input class="form-control form-control-lg" type="number" name="price" placeholder="Enter food price" value="<?php echo $_GET['price'] ?>">
+                        </div>
+                    </div>
+                </div>
+                <!-- left code ends here -->
+
+                <!-- start code on the right side of the page -->
+                <div class="col-lg-6">
+                    <div class=" form-group">
+                        <div class="mb-3">
+                            <div class="mb-3 ">
+                                <label class="form-label" style="color: black;"><strong>Food Description</strong></label>
+                                <textarea class="form-control span12" rows="5" name="description" 
+                                placeholder="Enter your Food description" value="<?php echo $_GET['description'] ?>" ></textarea>
+                            </div>
+                            <div class="mb-3 ">
+                                <label class="form-label" style="color: black;"><strong>Food Image</strong></label>
+                                <input type="file" class="input-group form-control" name="image_url" value="<?php echo $_GET['image_url'] ?>"  >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- right code ends here -->
+            </div>
+            <input type="submit" class="btn btn-primary mt-2" name="btn_ubah" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
+            <input type="reset" class="btn btn-danger mt-2" name="reset" value="Clear">
+        </form>
+        <?php
+    }
+    
+}
+// --- Tutup Fungsi Update
+
+
+// --- Fungsi Delete
+function hapus($link){
+    if(isset($_GET['uuid_menu']) && isset($_GET['aksi'])){
+        $uuid_menu = $_GET['uuid_menu'];
+        $sql_hapus = "DELETE FROM menu WHERE uuid_menu=" . $uuid_menu;
+        $hapus = mysqli_query($link, $sql_hapus);
+        
+        if($hapus){
+            if($_GET['aksi'] == 'delete'){
+                header('location: pages-menu-restaurant.php');
+            }
+        }
+    }
+    
+}
+// --- Tutup Fungsi Hapus
+
+
+// ===================================================================
+// --- Program Utama
+if (isset($_GET['aksi'])){
+    switch($_GET['aksi']){
+        case "create":
+            echo '<a href="pages-menu-restaurant.php"> &laquo; Home</a>';
+            tambah($link);
+            break;
+        case "read":
+            tampil_data($link);
+            break;
+        case "update":
+            ubah($link);
+            tampil_data($link);
+            break;
+        case "delete":
+            hapus($link);
+            break;
+        default:
+            echo "<h3>Aksi <i>".$_GET['aksi']."</i> tidak ada!</h3>";
+            tambah($link);
+            tampil_data($link);
+    }
+} else {
+    tambah($link);
+    tampil_data($link);
+}
+?>
 				</div>
 			</main>
 		</div>
 	</div>
 
-	<script src="js/app.js"></script>
+	<script src="../js/app.js"></script>
 
 </body>
 

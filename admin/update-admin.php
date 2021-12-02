@@ -240,18 +240,18 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 } else{
 
     // Check existence of id parameter before processing further
-    if(isset($_GET["id_admin"]) && !empty(trim($_GET["id_admin"]))){
+    if(isset($_GET["uuid_admin"]) && !empty(trim($_GET["uuid_admin"]))){
         // Get URL parameter
-        $id_admin =  trim($_GET["id_admin"]);
+        $uuid_admin =  trim($_GET["uuid_admin"]);
         
         // Prepare a select statement
-        $sql = "SELECT * FROM admin WHERE id_admin = ?";
+        $sql = "SELECT * FROM admin WHERE uuid_admin = ?";
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "i", $param_id_admin);
+            mysqli_stmt_bind_param($stmt, "i", $param_uuid_admin);
             
             // Set parameters
-            $param_id_admin = $id_admin;
+            $param_uuid_admin = $uuid_admin;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -267,6 +267,9 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
                     $email = $row["email"];
                     $phone = $row["phone"];
                     $jabatan = $row["jabatan"];
+                    $username = $row["username"];
+                    $gender = $row["gender"];
+                    $password = $row["password"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -308,12 +311,23 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 
 	<title>Update Admin</title>
 
-	<link href="css/app.css" rel="stylesheet">
+	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
-        <div class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <?php
+	include "../sidebar.php";
+	?>
+
+		<div class="main mx-auto" style="background-color: #E5E5E5;">
+			<?php
+				include "../navigation.php";
+			?>
+        <main class="content">
+        <div class="container-fluid p-0">
+					<h1 class="mb-3" style="font-weight: bold;">Add Data Admin</h1>
+        <form class="container" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 			<div class="row">	
 			<!-- start code on the left side of the page -->
 				<div class="col-lg-6">
@@ -384,10 +398,14 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
 				</div>
 				<!-- right code ends here -->
             </div>
-            <input type="hidden" name="id_admin" value="<?php echo $id_admin; ?>"/>
+            <input type="hidden" name="uuid_admin" value="<?php echo $id_admin; ?>"/>
             <input type="submit" class="btn btn-primary mt-3" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
             <a href="pages-admin.php" class="btn btn-danger mt-3">Cancel</a>
-        </div>
+</form>
+</div>
+    </main>
     </div>
+    </div>
+    <script src="../js/app.js"></script>
 </body>
 </html>
