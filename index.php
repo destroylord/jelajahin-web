@@ -26,7 +26,7 @@
 	include "sidebar.php";
 	?>
 
-		<div class="main" style="background-color: #E5E5E5;">
+		<div class="main mx-auto" style="background-color: #E5E5E5;">
 			<?php
 				include_once "navigation.php";
 			?>

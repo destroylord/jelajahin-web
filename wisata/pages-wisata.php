@@ -74,7 +74,7 @@
                                                         <td><?php echo $data['province_name'] ?></td>
                                                         <td><?php echo $data['city_name'] ?></td>
                                                         <td>
-                                                            <a href="edit.php?uuid=<?=$data['uuid_wisata'];?>">Edit</a>
+                                                            <a href="pages-wisata-edit.php?uuid_wisata=<?=$data['uuid_wisata'];?>">Edit</a>
                                                             <form action="hapus.php" method="POST">
                                                                 <input type="hidden" name="delete_uuid" value="<?=$data['uuid_wisata']?>">
                                                                 <input type="hidden" name="delete_images" value="<?=$data['image_url']?>">

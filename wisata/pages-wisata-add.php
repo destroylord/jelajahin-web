@@ -113,6 +113,14 @@ session_start();
 						</div>
 					</div>
 
+					<div class="container">
+
+					<b>Coordinates</b>
+					<form>
+						<p>latitude<input type="text" name="lat" id="lat" size=12 value=""></p>
+						<p>longtitude<input type="text" name="lon" id="lon" size=12 value=""></p>
+					</form>
+
 					<!-- Alamat -->
 					<div class="row">
 						<div class="col-md-12">

@@ -2,5 +2,5 @@
 session_start();
 session_destroy();
 
-header("Location: ./pages-sign-in.php");
+header("Location: http://localhost/jelajahin-web/pages-sign-in.php");
 ?>
