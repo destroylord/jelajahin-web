@@ -1,154 +1,5 @@
 <?php
-// Include conection file
-require_once "../conection.php";
-function uuid($data  =  null) {
-    $data  =  $data  ??  random_bytes ( 16 );
-    //menegaskan ( strlen ( $data )  ==  16 );
-
-    // Setel versi ke 0100
-    $data [ 6 ]  =  chr ( ord ( $data [ 6 ])  &  0x0f  |  0x40 );
-    // Atur bit 6-7 hingga 10
-    $data [ 8 ]  =  chr ( ord ( $data [ 8 ])  &  0x3f  |  0x80 );
-
-    // Keluarkan 36 karakter UUID.
-    return  vsprintf ( '%s%s-%s-%s-%s-%s%s%s' ,  str_split ( bin2hex ( $data ),  4 ));
-}
-session_start();
-
-// Define variables and initialize with empty values
-$uuid_restaurant = $name = $description = $price_range = $food_type = $restaurant_type = $phone = $website = $business_time_open = $business_time_closes = $file = "";
-$uuid_restaurant_err = $name_err = $description_err = $price_range_err = $food_type_err = $restaurant_type_err = $phone_err = $website_err = $business_time_open_err = $business_time_closes_err = $file_err = "";
-
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-	$uuid_restaurant = uuid();
-
-    // Validate name
-    $input_name = trim($_POST["name"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
-    }
-
-    // Validate description
-    $input_description = trim($_POST["description"]);
-    if(empty($input_description)){
-        $description_err = "Please enter an description.";
-    } else{
-        $description = $input_description;
-    }
-
-    // Validate price_range
-    $input_price_range = trim($_POST["price_range"]);
-    if(empty($input_price_range)){
-        $price_range_err = "Please enter the price range food amount.";
-    } elseif(!ctype_digit($input_price_range)){
-        $price_range_err = "Please enter a positive integer value.";
-    } else{
-        $price_range = $input_price_range;
-    }
-
-	// Validate food_type
-	$input_food_type = $_POST["food_type"];
-    if(empty($input_food_type)){
-        $food_type_err = "Please select your restaurant food_type.";
-    } else{
-        $food_type = $input_food_type;
-    }
-
-	// Validate restaurant type
-	$input_restaurant_type = $_POST["restaurant_type"];
-    if(empty($input_restaurant_type)){
-        $restaurant_type_err = "Please select your restaurant restaurant_type.";
-    } else{
-        $restaurant_type = $input_restaurant_type;
-    }
-
-	// Validate restaurant phone
-	$input_phone = trim($_POST["phone"]);
-    if(empty($input_phone)){
-        $phone_err = "Please enter the restaurant phone number.";
-    } elseif(!ctype_digit($input_phone)){
-        $phone_err = "Please enter a positive integer value.";
-    } else{
-        $phone = $input_phone;
-    }
-
-	// Validate Website url
-	$input_website = trim($_POST["website"]);
-    if(empty($input_website)){
-        $website_err = "Please enter the website.";
-    } else{
-        $website = $input_website;
-    }
-
-	// Validate Business business_time_open
-	$input_business_time = trim($_POST["business_time_open"]);
-    if(empty($input_business_time_open)){
-        $business_time_open_err = "Please enter the restaurant open.";
-    } else{
-        $business_time_open = $input_business_time_open;
-    }
-
-	// Validate Business business_time_closes
-	$input_business_time = trim($_POST["business_time_closes"]);
-    if(empty($input_business_time_closes)){
-        $business_time_closes_err = "Please enter the restaurant close.";
-    } else{
-        $business_time_closes = $input_business_time_closes;
-    }
-
-	// Validate image 
-	$input_file = trim($_POST["file"]);
-    if(empty($input_file)){
-        $file_err = "Please input the file.";
-    } else{
-        $file = $input_file;
-    }
-
-    // Check input errors before inserting in database
-    if(empty($uuid_restaurant_err) && empty($name_err) && empty($description_err) && empty($price_range_err) && empty($food_type_err) && empty($restaurant_type_err) 
-	&& empty ($phone_err) && empty($website_err) && empty($business_time_open_err) && empty($business_time_closes_err) && empty($file_err)){
-        // Prepare an insert statement
-        $sql = "INSERT INTO restaurant (uuid_restaurant, name, description, price_range, food_type, restaurant_type, phone, website, business_time, file ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "isssssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_range, $param_food_type, $param_restaurant_type, $param_phone, $param_website, $param_business_time_open, $param_business_time_closes, $param_file);
-
-            // Set parameters
-			$param_uuid_restaurant		= $uuid_restaurant;
-            $param_name					= $name;
-            $param_description			= $description;
-            $param_price_range			= $price_range;
-			$param_food_type			= $food_type;
-			$param_restaurant_type 		= $restaurant_type;
-			$param_phone				= $phone;
-			$param_website				= $website;
-			$param_business_time_open	= $business_time_open;
-			$param_business_time_closes	= $business_time_closes;
-			$param_file					= $file;
-
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Records created successfully. Redirect to landing page
-                header("location: pages-menu-restaurant.php");
-                exit();
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
-
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
-
-    // Close connection
-    mysqli_close($link);
-}
+include "proses-add-restaurant.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -171,7 +22,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-	</head>
+
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-127341144-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-127341144-1');
+	</script>
+
+	<link rel="canonical" href="https://www.latlong.net/convert-address-to-lat-long.html" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+</head>
 
 <body>
 
@@ -196,31 +59,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label class=" form-label" style="color: black;"><strong>Restaurant Name</strong></label>
-										<div class="mb-3 <?php echo (!empty($name_err)) ? 'has-error' : ''; ?> ">
-											<input type="text" class="form-control form-control-lg" name="name" id="name" 
-											placeholder="Enter your restaurant name" value="<?php echo $name; ?>">
-												<span class="help-block"><?php echo $name_err; ?></span>        
-										</div>
-                                        <div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
-                                            <label class="form-label" style="color: black;"><strong>Restaurant Description</strong></label>
-                                            <textarea class="form-control span12" rows="6" name="description" 
-                                            placeholder="Enter your restaurant description" value="<?php echo $description; ?>" ></textarea>
-												<span class="help-block"><?php echo $description_err; ?></span>
-                                        </div>
-										<div class="mb-3 <?php echo (!empty($price_range_err)) ? 'has-error' : ''; ?>">
-											<label class=" form-label"style="color: black;"><strong>Range Price</strong></label>
-											<div class="mb-3 row">
-												<label class="col-sm-1 col-form-label" style="color: black;">Rp</label>
-												<div class="col-sm-11">
-													<input class="form-control" type="text" name="price_range" placeholder="Enter your range price" value="<?php echo $price_range; ?>">
-													<span class="help-block"><?php echo $price_range_err; ?></span>
-												</div>
+									<div class="mb-3 <?php echo (!empty($name_err)) ? 'has-error' : ''; ?> ">
+										<input type="text" class="form-control form-control-lg" name="name" id="name" 
+										placeholder="Enter your restaurant name" value="<?php echo $name; ?>">
+											<span class="help-block"><?php echo $name_err; ?></span>        
+									</div>
+									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
+										<label class="form-label" style="color: black;"><strong>Restaurant Description</strong></label>
+										<textarea class="form-control span12" rows="6" name="description" type="text"
+										placeholder="Enter your restaurant description" value="<?php echo $description; ?>" ></textarea>
+											<span class="help-block"><?php echo $description_err; ?></span>
+									</div>
+									<div class="mb-3 <?php echo (!empty($price_range_err)) ? 'has-error' : ''; ?>">
+										<label class=" form-label"style="color: black;"><strong>Range Price</strong></label>
+										<div class="mb-3 row">
+											<label class="col-sm-1 col-form-label" style="color: black;">Rp</label>
+											<div class="col-sm-11">
+												<input class="form-control" type="text" name="price_range" placeholder="Enter your range price" value="<?php echo $price_range; ?>">
+												<span class="help-block"><?php echo $price_range_err; ?></span>
 											</div>
 										</div>
-										<div class="input-group mb-3 <?php echo (!empty($file_err)) ? 'has-error' : ''; ?>">
-											<input type="file" class="form-control" name="file">
-											<label class="input-group-text" for="file">Upload</label>
-										</div>
+									</div>
+									<div class="input-group mb-3 <?php echo (!empty($file_err)) ? 'has-error' : ''; ?>">
+										<input type="file" class="form-control" name="file">
+										<label class="input-group-text" for="file">Upload</label>
+									</div>
 								</div>
 							</div>
 							<!-- left code ends here -->
@@ -258,18 +121,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 										<div class="form-group">
 											<div class="mb-3 <?php echo (!empty($website_err)) ? 'has-error' : ''; ?>">
 												<label class="form-label"style="color: black;"><strong>Url Website</strong></label>
-												<input class="form-control form-control-lg" type="url" name="website" placeholder="Enter your restaurant website" value="<?php echo $website; ?>">
+												<input class="form-control form-control-lg" type="text" name="website" placeholder="Enter your restaurant website" value="<?php echo $website; ?>">
 													<span class="help-block"><?php echo $website_err; ?></span>
 											</div>
 											<div class="mb-3">
 												<label class="form-label"style="color: black;"><strong>Business Time</strong></label>
 												<div class="row ">
 													<div class="col-lg-6 <?php echo (!empty($business_time_open_err)) ? 'has-error' : ''; ?> ">
-														<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time; ?>">
+														<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time_open; ?>">
 														<span class="help-block"><?php echo $business_time_open_err; ?></span>
 													</div>
 													<div class="col-lg-6 <?php echo (!empty($business_time_closes_err)) ? 'has-error' : ''; ?>">
-														<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time; ?>">
+														<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time_closes; ?>">
 														<span class="help-block"><?php echo $business_time_closes_err; ?></span>
 													</div>
 												</div>
@@ -277,8 +140,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 										</div>
 								</div>
 							</div>
-							<!-- right code ends here -->
+							<!-- left code ends here -->
 
+							<!-- start code on the right side of the page -->
 							<div class="col-12">
 								<div class="row mb-3 mt-3">
 									<div class="col-lg-10 ">
@@ -287,20 +151,82 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 								</div>
 
 								<div class="row">
-									<?php
-									include "coba.php";
-									?>
-								</div>
+								<div class="container">
+									<div class="row">
+										<div class="col-sm-6 mb-3 <?php echo (!empty($provinsi_err)) ? 'has-error' : ''; ?>">
+											<div class="form-group">
+												<label for="form_sex">Provinsi</label>
+												<select class="form-control m-b" name="propinsi" id="propinsi" value="<?php echo $provinsi; ?>">
+													<option selected value="">-- Pilih Provinsi --</option>
+												</select>
+												<span class="help-block"><?php echo $provinsi_err; ?></span>
+											</div>
+										</div>
+										<div class="col-sm-6 mb-3 <?php echo (!empty($kabupaten_err)) ? 'has-error' : ''; ?>">
+											<div class="form-group">
+												<label for="form_post">Kab / Kota </label>
+												<select class="form-control m-b" name="kabupaten" id="kabupaten" value="<?php echo $kabupaten; ?>">
+													<option selected value="">-- Pilih Kabupaten --</option>
+												</select>
+												<span class="help-block"><?php echo $kabupaten_err; ?></span>
+											</div>
+										</div>
+									</div>
 
+									<div class="row">
+										<div class="col-sm-6 mb-3 <?php echo (!empty($kecamatan_err)) ? 'has-error' : ''; ?>">
+											<div class="form-group">
+												<label for="form_sex">Kecamatan </label>
+												<select class="form-control m-b" name="kecamatan" id="kecamatan" value="<?php echo $kecamatan; ?>">
+													<option selected value="">-- Pilih Kecamatan --</option>
+												</select>
+												<span class="help-block"><?php echo $kecamatan_err; ?></span>
+											</div>
+										</div>
+										<div class="col-sm-6 <?php echo (!empty($kelurahan_err)) ? 'has-error' : ''; ?>">
+											<div class="form-group">
+												<label for="form_post">Kelurahan / Desa </label>
+												<select class="form-control m-b" name="kelurahan" id="kelurahan" value="<?php echo $kelurahan; ?>">
+													<option selected value="">-- Pilih Kelurahan --</option>
+												</select>
+												<span class="help-block"><?php echo $kelurahan_err; ?></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
 
 								<div class="row">
-								<?php
-									include "maps-coba.php";
-									?>
+									<div class="form-group col-lg-9">
+									<div class="mb-3 <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
+										<label class="form-label">Full Address</label>
+										<textarea class="form-control span12" rows="5" name="address" id="address"
+										placeholder="Enter your restaurant address" value="<?php echo $address; ?>" ></textarea>
+										<span class="help-block"><?php echo $address_err; ?></span>
+									</div>
 								</div>
+								<div class="form-group col-lg-3">
+									<div class="mb-3 <?php echo (!empty($latitude_err)) ? 'has-error' : ''; ?>">
+										<label class="form-label" for="lat">Latitude</label>
+										<input class="form-control form-control-lg" type="text" name="lat" id="lat" placeholder="lat coordinate"value="<?php echo $latitude; ?>" />
+										<span class="help-block"><?php echo $latitude_err; ?></span>
+									</div>
+									<div class="mb-3 <?php echo (!empty($longitude_err)) ? 'has-error' : ''; ?>">
+										<label class="form-label" for="lng">Longitude</label>
+										<input class="form-control form-control-lg" type="text" name="lng" id="lng" placeholder="long coordinate"value="<?php echo $longitude; ?>" />
+										<span class="help-block"><?php echo $longitude_err; ?></span>
+									</div>
+									
+								</div>
+								
+								<div id="latlongmap" style="width:100%;height:400px;" class="shadow"></div>
+								</div>
+								<!-- left code ends here -->
+
 								<input type="submit" class="btn btn-primary mt-3" value="Submit" name="submit" style="background-color: #9ED763; border-color:#9ED763;">
 								<a href="pages-restaurant.php" class="btn btn-danger mt-3">Cancel</a>
 							</div>
+						</div>
 					</form>
 				</div>
 				
@@ -309,6 +235,149 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	</div>
 
 	<script src="../js/app.js"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- select province, etc -->
+	<script type = "text/javascript" >
+		var return_first = function() {
+			var tmp = null;
+			$.ajax({
+				'async': false,
+				'type': "get",
+				'global': false,
+				'dataType': 'json',
+				'url': 'https://x.rajaapi.com/poe',
+				'success': function(data) {
+					tmp = data.token;
+				}
+			});
+			return tmp;
+		}();
+	$(document).ready(function() {
+		$.ajax({
+			url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/provinsi',
+			type: 'GET',
+			dataType: 'json',
+			success: function(json) {
+				if (json.code == 200) {
+					for (i = 0; i < Object.keys(json.data).length; i++) {
+						$('#propinsi').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+					}
+				} else {
+					$('#kabupaten').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+				}
+			}
+		});
+		$("#propinsi").change(function() {
+			var propinsi = $("#propinsi").val();
+			$.ajax({
+				url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/kabupaten',
+				data: "idpropinsi=" + propinsi,
+				type: 'GET',
+				cache: false,
+				dataType: 'json',
+				success: function(json) {
+					$("#kabupaten").html('');
+					if (json.code == 200) {
+						for (i = 0; i < Object.keys(json.data).length; i++) {
+							$('#kabupaten').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+						}
+						$('#kecamatan').html($('<option>').text('-- Pilih Kecamatan --').attr('value', '-- Pilih Kecamatan --'));
+						$('#kelurahan').html($('<option>').text('-- Pilih Kelurahan --').attr('value', '-- Pilih Kelurahan --'));
+
+					} else {
+						$('#kabupaten').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+					}
+				}
+			});
+		});
+		$("#kabupaten").change(function() {
+			var kabupaten = $("#kabupaten").val();
+			$.ajax({
+				url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/kecamatan',
+				data: "idkabupaten=" + kabupaten + "&idpropinsi=" + propinsi,
+				type: 'GET',
+				cache: false,
+				dataType: 'json',
+				success: function(json) {
+					$("#kecamatan").html('');
+					if (json.code == 200) {
+						for (i = 0; i < Object.keys(json.data).length; i++) {
+							$('#kecamatan').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+						}
+						$('#kelurahan').html($('<option>').text('-- Pilih Kelurahan --').attr('value', '-- Pilih Kelurahan --'));
+						
+					} else {
+						$('#kecamatan').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+					}
+				}
+			});
+		});
+		$("#kecamatan").change(function() {
+			var kecamatan = $("#kecamatan").val();
+			$.ajax({
+				url: 'https://x.rajaapi.com/MeP7c5ne' + window.return_first + '/m/wilayah/kelurahan',
+				data: "idkabupaten=" + kabupaten + "&idpropinsi=" + propinsi + "&idkecamatan=" + kecamatan,
+				type: 'GET',
+				dataType: 'json',
+				cache: false,
+				success: function(json) {
+					$("#kelurahan").html('');
+					if (json.code == 200) {
+						for (i = 0; i < Object.keys(json.data).length; i++) {
+							$('#kelurahan').append($('<option>').text(json.data[i].name).attr('value', json.data[i].id));
+						}
+					} else {
+						$('#kelurahan').append($('<option>').text('Data tidak di temukan').attr('value', 'Data tidak di temukan'));
+					}
+				}
+			});
+		});
+	});
+	</script>
+
+	<!-- maps -->
+	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" crossorigin=""></script>
+	<script type="text/javascript">
+		var mymap = L.map('latlongmap');
+		var mmr = L.marker([0,0]);
+		mmr.bindPopup('0,0');
+		mmr.addTo(mymap);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar',
+		attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(mymap);
+		sm(-7.913402,113.822800,16);
+		mymap.on('click', onMapClick);
+
+		if (frmplace.attachEvent) {
+			frmplace.attachEvent("submit", getp);
+		} else {
+			frmplace.addEventListener("submit", getp);
+		}
+
+		function onMapClick(e) {
+			mmr.setLatLng(e.latlng);
+			setui(e.latlng.lat,e.latlng.lng,mymap.getZoom());
+		}
+
+
+		function sm(lt,ln,zm) {
+			setui(lt,ln,zm);
+			mmr.setLatLng(L.latLng(lt,ln));
+			mymap.setView([lt,ln], zm);
+		}
+
+		function setui(lt,ln,zm) {
+			lt = Number(lt).toFixed(6);
+			ln = Number(ln).toFixed(6);
+			document.getElementById("lat").value=lt;
+			document.getElementById("lng").value=ln;
+		}
+	</script>
+
 </body>
 
 </html>
