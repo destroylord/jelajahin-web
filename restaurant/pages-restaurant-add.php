@@ -81,8 +81,9 @@ include "proses-add-restaurant.php";
 										</div>
 									</div>
 									<div class="input-group mb-3 <?php echo (!empty($file_err)) ? 'has-error' : ''; ?>">
-										<input type="file" class="form-control" name="file">
+										<input type="file" class="form-control" name="file" value="<?php echo $file; ?>">
 										<label class="input-group-text" for="file">Upload</label>
+										<span class="help-block"><?php echo $file_err; ?></span>
 									</div>
 								</div>
 							</div>

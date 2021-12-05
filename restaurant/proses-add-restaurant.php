@@ -27,17 +27,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$uuid_restaurant = uuid();
 
     // Validate name
-    $input_name = trim($_POST["name"]);
+    $input_name = $_POST["name"];
     if(empty($input_name)){
         $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
     } else{
         $name = $input_name;
     }
 
     // Validate description
-    $input_description = trim($_POST["description"]);
+    $input_description = $_POST["description"];
     if(empty($input_description)){
         $description_err = "Please enter an description.";
     } else{
@@ -45,11 +43,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     // Validate price_range
-    $input_price_range = trim($_POST["price_range"]);
+    $input_price_range = $_POST["price_range"];
     if(empty($input_price_range)){
         $price_range_err = "Please enter the price range food amount.";
-    } elseif(!ctype_digit($input_price_range)){
-        $price_range_err = "Please enter a positive integer value.";
     } else{
         $price_range = $input_price_range;
     }
@@ -81,7 +77,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate Website url
-	$input_website = trim($_POST["website"]);
+	$input_website = $_POST["website"];
     if(empty($input_website)){
         $website_err = "Please enter the website.";
     } else{
@@ -89,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate Business business_time_open
-	$input_business_time = trim($_POST["business_time_open"]);
+	$input_business_time_open = $_POST["business_time_open"];
     if(empty($input_business_time_open)){
         $business_time_open_err = "Please enter the restaurant open.";
     } else{
@@ -97,7 +93,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate Business business_time_closes
-	$input_business_time = trim($_POST["business_time_closes"]);
+	$input_business_time_closes = $_POST["business_time_closes"];
     if(empty($input_business_time_closes)){
         $business_time_closes_err = "Please enter the restaurant close.";
     } else{
@@ -105,7 +101,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate image 
-	$input_file = trim($_POST["file"]);
+	$input_file = $_POST["file"];
     if(empty($input_file)){
         $file_err = "Please input the file.";
     } else{
@@ -113,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	//validate provinsi
-	$input_provinsi = trim($_POST["propinsi"]);
+	$input_provinsi = $_POST["propinsi"];
 	if(empty($input_provinsi)){
 		$provinsi_err = "please select the province";
 	} else {
@@ -121,7 +117,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
 	//validate kabupaten
-	$input_kabupaten = trim($_POST["kabupaten"]);
+	$input_kabupaten = $_POST["kabupaten"];
 	if(empty($input_kabupaten)){
 		$kabupaten_err = "please select the district";
 	} else {
@@ -129,7 +125,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
 	//validate kecamatan
-	$input_kecamatan = trim($_POST["kecamatan"]);
+	$input_kecamatan = $_POST["kecamatan"];
 	if(empty($input_kecamatan)){
 		$kecamatan_err = "please select the sub district";
 	} else {
@@ -137,7 +133,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
 	//validate kelurahan
-	$input_kelurahan = trim($_POST["kelurahan"]);
+	$input_kelurahan = $_POST["kelurahan"];
 	if(empty($input_kelurahan)){
 		$kelurahan_err = "please select the rayon";
 	} else {
@@ -153,7 +149,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
 	//validate latitude
-	$input_latitude = trim($_POST["lat"]);
+	$input_latitude = $_POST["lat"];
 	if(empty($input_latitude)){
 		$latitude_err = "please select the latitude";
 	} else {
@@ -161,12 +157,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
 	//validate longitude
-	$input_longitude = trim($_POST["lng"]);
+	$input_longitude = $_POST["lng"];
 	if(empty($input_longitude)){
 		$longitude_err = "please select the longitude";
 	} else {
 		$longitude = $input_longitude;
 	}
+
     // Check input errors before inserting in database
     if(empty($uuid_restaurant_err) && empty($name_err) && empty($description_err) && empty($price_range_err) && empty($food_type_err) && empty($restaurant_type_err) 
 	&& empty ($phone_err) && empty($website_err) && empty($business_time_open_err) && empty($business_time_closes_err) && empty($file_err) && empty($provinsi_err) 
@@ -178,7 +175,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "issssssssssssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_range, $param_food_type, 
+            mysqli_stmt_bind_param($stmt, "ssssssssssssssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_range, $param_food_type, 
 			$param_restaurant_type, $param_phone, $param_website, $param_business_time_open, $param_business_time_closes, $param_file, $param_provinsi, 
 			$param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
 

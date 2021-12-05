@@ -38,41 +38,158 @@
 <?php
 // --- koneksi ke database
 require_once "../conection.php";
-function uuid($data  =  null) {
-    $data  =  $data  ??  random_bytes ( 16 );
-    //menegaskan ( strlen ( $data )  ==  16 );
 
-    // Setel versi ke 0100
-    $data [ 6 ]  =  chr ( ord ( $data [ 6 ])  &  0x0f  |  0x40 );
-    // Atur bit 6-7 hingga 10
-    $data [ 8 ]  =  chr ( ord ( $data [ 8 ])  &  0x3f  |  0x80 );
-
-    // Keluarkan 36 karakter UUID.
-    return  vsprintf ( '%s%s-%s-%s-%s-%s%s%s' ,  str_split ( bin2hex ( $data ),  4 ));}
-    
 // --- Fngsi tambah data (Create)
 function tambah($link){
     
     if (isset($_POST['submit'])){
-        $uuid_menu = uuid();
-        $category = $_POST['category'];
-        $name = $_POST['name'];
-        $description = $_POST['description'];
-        $price  = $_POST['price'];
-        $image_url = $_POST['image_url'];
+        function uuid($data  =  null) {
+            $data  =  $data  ??  random_bytes ( 16 );
+            //menegaskan ( strlen ( $data )  ==  16 );
         
-        if(!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($image_url)){
-            $sql = "INSERT INTO menu (uuid_menu, category, name, description, price, image_url) VALUES(".$uuid_menu.",'".$category."','".$name."','".$description."','".$price."','".$image_url."')";
-            $simpan = mysqli_query($link, $sql);
-            if($simpan && isset($_GET['aksi'])){
-                if($_GET['aksi'] == 'create'){
-                    header('location: pages-menu-restaurant.php');
+            // Setel versi ke 0100
+            $data [ 6 ]  =  chr ( ord ( $data [ 6 ])  &  0x0f  |  0x40 );
+            // Atur bit 6-7 hingga 10
+            $data [ 8 ]  =  chr ( ord ( $data [ 8 ])  &  0x3f  |  0x80 );
+        
+            // Keluarkan 36 karakter UUID.
+            return  vsprintf ( '%s%s-%s-%s-%s-%s%s%s' ,  str_split ( bin2hex ( $data ),  4 ));
+        }
+        
+        // Define variables and initialize with empty values
+        $uuid_menu = $name = $description = $price = $food_category = $confirm_image_url = "";
+        $uuid_menu_err = $name_err = $description_err = $price_err = $food_category_err = $confirm_image_url_err = "";
+        
+        // Processing form data when form is submitted
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $uuid_menu = uuid();
+        
+            // Validate name
+            if(empty(trim($_POST["name"]))){
+                $name_err = "Please enter your name.";
+            } else{
+            // Prepare a select statement
+            $sql = "SELECT uuid_menu FROM menu WHERE name = ?";
+                    
+                if($stmt = mysqli_prepare($link, $sql)){
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "s", $param_name);
+                        
+                    // Set parameters
+                    $param_name = trim($_POST["name"]);
+                        
+                    // Attempt to execute the prepared statement
+                    if(mysqli_stmt_execute($stmt)){
+                        /* store result */
+                        mysqli_stmt_store_result($stmt);
+                            
+                        if(mysqli_stmt_num_rows($stmt) == 1){
+                            $name_err = "This name is already taken.";
+                        } else{
+                            $name = trim($_POST["name"]);
+                        }
+                    
+                    } else{
+                        echo "Oops! Something went wrong. Please try again later.";
+                    }
+                }
+                // Close statement
+                mysqli_stmt_close($stmt);
+            }
+        
+            // Validate description
+            if(empty(trim($_POST["description"]))){
+                $description_err = "Please enter your description.";
+            } else{
+            // Prepare a select statement
+            $sql = "SELECT uuid_menu FROM menu WHERE description = ?";
+                    
+                if($stmt = mysqli_prepare($link, $sql)){
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "s", $param_description);
+                        
+                    // Set parameters
+                    $param_description = trim($_POST["description"]);
+                        
+                    // Attempt to execute the prepared statement
+                    if(mysqli_stmt_execute($stmt)){
+                        /* store result */
+                        mysqli_stmt_store_result($stmt);
+                            
+                        if(mysqli_stmt_num_rows($stmt) == 1){
+                            $description_err = "This description is already taken.";
+                        } else{
+                            $description = trim($_POST["description"]);
+                        }
+                    
+                    } else{
+                        echo "Oops! Something went wrong. Please try again later.";
+                    }
+                }
+                // Close statement
+                mysqli_stmt_close($stmt);
+            }
+            
+            // Validate price
+            if(empty(isset($_POST["price"]))){
+                $price_err = "Please enter your jenis kelamin.";
+            } else{
+                $price = trim($_POST["price"]);
+            }
+        
+            // Validate food_category
+            if(empty(trim($_POST["food_category"]))){ 
+                $food_category_err = "This food_category is already taken.";
+            } else{
+                $food_category = trim($_POST["food_category"]);
+            }
+            
+        
+            // Validate image_url
+            if(empty(trim($_POST["image_url"]))){
+                $image_url_err = "Please confirm image_url.";     
+            } else{
+                $image_url = trim($_POST["image_url"]);
+                if(empty($image_url_err) && ($image_url != $image_url)){
+                    $image_url_err = "image_url did not match.";
                 }
             }
-        } else {
-            $pesan = "Tidak dapat menyimpan, data belum lengkap!";
+            
+            // Check input errors before inserting in database
+            if(empty($uuid_menu_err) && empty($name_err) && empty($description_err) && empty($username_err) && empty($phone_err) && empty($price_err) && 
+            empty($food_category_err) && empty($image_url_err) && empty($image_url_err)){
+                
+                // Prepare an insert statement
+                $sql = "INSERT INTO menu (uuid_menu, name, description, price, food_category, image_url) VALUES (?, ?, ?, ?, ?, ?)";
+                 
+                if($stmt = mysqli_prepare($link, $sql)){
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "isssss", $param_uuid_menu, $param_name, $param_description, $param_price,$param_food_category, $param_image_url);
+                    
+                    // Set parameters
+                    $param_uuid_menu = $uuid_menu;
+                    $param_name = $name;
+                    $param_description = $description;
+                    $param_price = $price;
+                    $param_food_category = $food_category;
+                    $param_image_url = $image_url;
+                    
+                    // Attempt to execute the prepared statement
+                    if(mysqli_stmt_execute($stmt)){
+                        // Redirect to login page
+                        header("location: pages-coba-menu.php");
+                    } else{
+                        echo "Something went wrong. Please try again later.";
+                    }
+                }
+                 
+                // Close statement
+                mysqli_stmt_close($stmt);
+            }
+            
+            // Close connection
+            mysqli_close($link);
         }
-    }
     ?> 
         <form class="container" action="" method="post">
             <div class="row">	
