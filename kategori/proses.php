@@ -1,31 +1,14 @@
 <?php
+include "../conection.php";
 
-include_once '../conection.php';
+$nama = $_POST['nama'];
 
+$sql=mysqli_query($link, "INSERT INTO `kategori`(`nama`) VALUES ('$nama')");
 
+if ($sql) {
+    header("location: pages-kategori-add.php");
+} else {
+    echo "gagal";
+}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $nama 			= $_POST['nama'];
-    
-    
-        $sql = "INSERT INTO `wisata`(`nama`) VALUES ('$nama')";
-
-        $ex = mysqli_query($link, $sql);
-        
-
-        // echo "<pre>";
-        // var_dump($sql);
-        // echo "</pre>";exit;
-
-        if ($ex) {
-            echo "berhasil";exit;
-        } else {
-            echo "gagal";exit;
-        }
-        
-
-
-        
-    } 
 ?>

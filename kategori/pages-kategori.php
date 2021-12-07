@@ -47,7 +47,7 @@
                                                 <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">Nama</th>
-                                                <th scope="col">Action</th>
+                                                <th rospawn="">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -64,7 +64,7 @@
                                                         <td><?php echo $data['id'] ?></td>
                                                         <td><?php echo $data['nama'] ?></td>
                                                         <td>
-                                                        <a href="hapus.php?&id=<?php echo "$array[0]"; ?>">hapus</a>
+															<a href="delete.php?id=<?php echo $data['id']; ?>">Hapus</a>
                                                         </td>
                                                     </tr>
 
