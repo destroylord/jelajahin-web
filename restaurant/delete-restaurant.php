@@ -9,7 +9,7 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_uuid_restaurant);
+        mysqli_stmt_bind_param($stmt, "s", $param_uuid_restaurant);
         
         // Set parameters
         $param_uuid_restaurant = trim($_POST["uuid_restaurant"]);
