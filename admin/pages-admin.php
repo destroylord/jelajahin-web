@@ -10,11 +10,7 @@
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-<<<<<<< HEAD
-	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
-=======
 	<link rel="shortcut icon" href="../img/icons/logo.png" />
->>>>>>> 2c95b3901944ba6bf50a01aa8f6fb2a8dc83d9f2
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
@@ -32,23 +28,10 @@
 	include "../sidebar.php";
 	?>
 
-		<div class="main" style="background-color: #E5E5E5;">
-			<nav class="navbar navbar-expand navbar-light navbar-bg" style="background-color: #9ED763;">
-				<a class="sidebar-toggle js-sidebar-toggle">
-          <i class="hamburger align-self-center"></i>
-        </a>
-		<div class="search">
-			<input type="text" class="form-control" placeholder="search">
-		</div>
-				<div class="navbar-collapse collapse">
-					<ul class="navbar-nav navbar-align">
-					<?php
-						include "../request.php";
-						include "../avatar.php"; 
-						?>
-					</ul>
-				</div>
-			</nav>
+	<div class="main" style="background-color: #E5E5E5;">
+		<?php
+			include "../navigation.php";
+		?>
 
 			<main class="content">
 				<div class="container-fluid p-0">

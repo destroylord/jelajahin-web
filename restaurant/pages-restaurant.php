@@ -60,12 +60,16 @@
 											echo"<tbody>";
 												while ($row = mysqli_fetch_array($result)){
 												echo "<tr>";
-													echo "<td>" . $row['file'] . "</td>";
+													echo "<td>" 
+													?>
+													<img src="uploads/<?php echo $data['file'] ?>" alt="" width="100" height="100">
+													<?php
+													"</td>";
 													echo "<td>" . $row['name'] . "</td>";
 													echo "<td>" . $row['address'] . "</td>";
 													echo "<td>" . $row['price_range'] . "</td>";
 													echo "<td>";
-														echo "<a href='pages-menu-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
+														echo "<a href='pages-restaurant.php? id=". $row['uuid_restaurant'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
 													echo "</td>";
 													echo "<td>";
 														echo "<a href='update-restaurant.php? uuid_restaurant=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";

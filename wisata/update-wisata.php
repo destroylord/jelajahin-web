@@ -1,6 +1,206 @@
 <?php
-include "proses-add-restaurant.php";
+// Include conection file
+require_once "../conection.php";
+
+// Define variables and initialize with empty values
+$uuid_wisata = $name = $description = $ticket_price = $image_url = $provinsi = $kabupaten = $kecamatan = $kelurahan = $address = $latitude = $longitude = "";
+$uuid_wisata_err = $name_err = $description_err = $ticket_price_err = $image_url_err = $provinsi_err = $kabupaten_err = $kecamatan_err = $kelurahan_err = $address_err = $latitude_err = $longitude_err = "";
+
+// Processing form data when form is submitted
+if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
+    // Get hidden input value
+    $uuid_wisata = $_POST["uuid_wisata"];
+
+    // Validate name
+    $input_name = $_POST["name"];
+    if(empty($input_name)){
+        $name_err = "Please enter a name.";
+    } else{
+        $name = $input_name;
+    }
+
+    // Validate description
+    $input_description = $_POST["description"];
+    if(empty($input_description)){
+        $description_err = "Please enter an description.";
+    } else{
+        $description = $input_description;
+    }
+
+    // Validate ticket_price
+    $input_ticket_price = $_POST["ticket_price"];
+    if(empty($input_ticket_price)){
+        $ticket_price_err = "Please enter the price range food amount.";
+    } else{
+        $ticket_price = $input_ticket_price;
+    }
+
+	// Validate image 
+	$input_image_url = $_POST["image_url"];
+    if(empty($input_image_url)){
+        $image_url_err = "Please input the image_url.";
+    } else{
+        $image_url = $input_image_url;
+    }
+
+	//validate provinsi
+	$input_provinsi = $_POST["propinsi"];
+	if(empty($input_provinsi)){
+		$provinsi_err = "please select the province";
+	} else {
+		$provinsi = $input_provinsi;
+	}
+
+	//validate kabupaten
+	$input_kabupaten = $_POST["kabupaten"];
+	if(empty($input_kabupaten)){
+		$kabupaten_err = "please select the district";
+	} else {
+		$kabupaten = $input_kabupaten;
+	}
+
+	//validate kecamatan
+	$input_kecamatan = $_POST["kecamatan"];
+	if(empty($input_kecamatan)){
+		$kecamatan_err = "please select the sub district";
+	} else {
+		$kecamatan = $input_kecamatan;
+	}
+
+	//validate kelurahan
+	$input_kelurahan = $_POST["kelurahan"];
+	if(empty($input_kelurahan)){
+		$kelurahan_err = "please select the rayon";
+	} else {
+		$kelurahan = $input_kelurahan;
+	}
+
+	//validate address
+	$input_address = trim($_POST["address"]);
+	if(empty($input_address)){
+		$address_err = "please select the address";
+	} else {
+		$address = $input_address;
+	}
+
+	//validate latitude
+	$input_latitude = $_POST["lat"];
+	if(empty($input_latitude)){
+		$latitude_err = "please select the latitude";
+	} else {
+		$latitude = $input_latitude;
+	}
+
+	//validate longitude
+	$input_longitude = $_POST["lng"];
+	if(empty($input_longitude)){
+		$longitude_err = "please select the longitude";
+	} else {
+		$longitude = $input_longitude;
+	}
+
+    // Check input errors before inserting in database
+    if(empty($uuid_wisata_err) && empty($name_err) && empty($description_err) && empty($ticket_price_err) && empty($image_url_err) && empty($provinsi_err) 
+	&& empty($kabupaten_err) && empty($kecamatan_err) && empty($kelurahan_err) && empty($address_err) && empty($latitude_err) && empty($longitude_err)){
+        // Prepare an insert statement
+        $sql = "UPDATE wisata SET name=?, description=?, ticket_price=?, image_url=?, provinsi_id=?, kabupaten_id=?, kecamatan_id=?, kelurahan_id=?, address=?, latitude=?, longitude=? WHERE uuid_wisata=?"; 
+
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "ssssssssssss", $param_uuid_wisata, $param_name, $param_description, $param_ticket_price, $param_image_url, $param_provinsi, 
+			$param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
+
+            // Set parameters
+			$param_uuid_wisata		    = $uuid_wisata;
+            $param_name					= $name;
+            $param_description			= $description;
+            $param_ticket_price			= $ticket_price;
+			$param_image_url			= $image_url;
+			$param_provinsi				= $provinsi;
+			$param_kabupaten			= $kabupaten;
+			$param_kecamatan			= $kecamatan;
+			$param_kelurahan			= $kelurahan;
+			$param_address				= $address;
+			$param_latitude				= $latitude;
+			$param_longitude			= $longitude;
+
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                // Records created successfully. Redirect to landing page
+                header("location: pages-wisata.php");
+                exit();
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
+
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+
+    // Close connection
+    mysqli_close($link);
+}else{
+
+    // Check existence of id parameter before processing further
+    if(isset($_GET["uuid_wisata"]) && !empty(trim($_GET["uuid_wisata"]))){
+        // Get URL parameter
+        $uuid_wisata =  trim($_GET["uuid_wisata"]);
+        
+        // Prepare a select statement
+        $sql = "SELECT * FROM wisata WHERE uuid_wisata = ?";
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_uuid_wisata);
+            
+            // Set parameters
+            $param_uuid_wisata = $uuid_wisata;
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                $result = mysqli_stmt_get_result($stmt);
+    
+                if(mysqli_num_rows($result) == 1){
+                    /* Fetch result row as an associative array. Since the result set
+                    contains only one row, we don't need to use while loop */
+                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                    
+                    // Retrieve individual field value
+                    $name = $row["name"];
+                    $description = $row["description"];
+                    $ticket_price = $row["ticket_price"];
+                    $image_url = $row["image_url"];
+                    $provinsi = $row["provinsi_id"];
+                    $kabupaten = $row["kabupaten_id"];
+                    $kecamatan = $row["kecamatan_id"];
+                    $kelurahan = $row["kelurahan_id"];
+                    $address = $row["address"];
+                    $latitude = $row["latitude"];
+                    $longitude = $row["longitude"];
+                } else{
+                    // URL doesn't contain valid id. Redirect to error page
+                    header("location: error.php");
+                    exit();
+                }
+                
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+        
+        // Close statement
+        mysqli_stmt_close($stmt);
+        
+        // Close connection
+        mysqli_close($link);
+    }  else{
+        // URL doesn't contain id parameter. Redirect to error page
+        header("location: error.php");
+        exit();
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,94 +251,44 @@ include "proses-add-restaurant.php";
 
 			<main class="content">
 				<div class="container-fluid p-0" >
-					<h1 class="mb-3"><strong>Add Data Restaurant</strong></h1>
+					<h1 class="mb-3"><strong>Add Data Wisata</strong></h1>
 
 					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 						<div class="row">	
 							<!-- start code on the left side of the page -->
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label class=" form-label" style="color: black;"><strong>Restaurant Name</strong></label>
 									<div class="mb-3 <?php echo (!empty($name_err)) ? 'has-error' : ''; ?> ">
+                                        <label class=" form-label" style="color: black;"><strong>Wisata Name</strong></label>
 										<input type="text" class="form-control form-control-lg" name="name" id="name" 
-										placeholder="Enter your restaurant name" value="<?php echo $name; ?>">
+										placeholder="Enter your Wisata name" value="<?php echo $name; ?>">
 											<span class="help-block"><?php echo $name_err; ?></span>        
 									</div>
 									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
-										<label class="form-label" style="color: black;"><strong>Restaurant Description</strong></label>
+										<label class="form-label" style="color: black;"><strong>Wisata Description</strong></label>
 										<textarea class="form-control span12" rows="6" name="description" type="text"
-										placeholder="Enter your restaurant description" value="<?php echo $description; ?>" ></textarea>
+										placeholder="Enter your Wisata description" value="<?php echo $description; ?>" ></textarea>
 											<span class="help-block"><?php echo $description_err; ?></span>
 									</div>
-									<div class="mb-3 <?php echo (!empty($price_range_err)) ? 'has-error' : ''; ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+									<div class="mb-3 <?php echo (!empty($ticket_price_err)) ? 'has-error' : ''; ?>">
 										<label class=" form-label"style="color: black;"><strong>Range Price</strong></label>
 										<div class="mb-3 row">
 											<label class="col-sm-1 col-form-label" style="color: black;">Rp</label>
 											<div class="col-sm-11">
-												<input class="form-control" type="text" name="price_range" placeholder="Enter your range price" value="<?php echo $price_range; ?>">
-												<span class="help-block"><?php echo $price_range_err; ?></span>
+												<input class="form-control" type="text" name="ticket_price" placeholder="Enter your range price" value="<?php echo $ticket_price; ?>">
+												<span class="help-block"><?php echo $ticket_price_err; ?></span>
 											</div>
 										</div>
 									</div>
-									<div class="input-group mb-3 <?php echo (!empty($file_err)) ? 'has-error' : ''; ?>">
-										<input type="file" class="form-control" name="file" value="<?php echo $file; ?>">
-										<label class="input-group-text" for="file">Upload</label>
-										<span class="help-block"><?php echo $file_err; ?></span>
+									<div class="mb-3 <?php echo (!empty($image_url_err)) ? 'has-error' : ''; ?>">
+                                        <label class="form-label" style="color: black;"><strong>Wisata Image</strong></label>
+										<input type="file" class="input-group form-control" name="image_url" value="<?php echo $image_url; ?>">
+										<span class="help-block"><?php echo $image_url_err; ?></span>
 									</div>
-								</div>
-							</div>
-							<!-- left code ends here -->
-
-							<!-- start code on the right side of the page -->
-							<div class="col-lg-6">
-								<div class=" form-group">
-                                        <div class="mb-3 <?php echo (!empty($food_type_err)) ? 'has-error' : ''; ?>">
-                                            <label class="form-label"style="color: black;"><strong>Food Type</strong></label>
-                                            <select name="food_type" class="form-select mb-3" value="<?php echo $food_type; ?>">
-												<option <?php echo ($food_type == 'Chinnes Food') ? "selected": "" ?>>Chinnes Food</option>
-												<option <?php echo ($food_type == 'Western Food') ? "selected": "" ?>>Western Food</option>
-												<option <?php echo ($food_type == 'Java Food') ? "selected": "" ?>>Java Food</option>
-												<option <?php echo ($food_type == 'Maduran Food') ? "selected": "" ?>>Maduran Food</option>
-											</select>
-											<span class="help-block"><?php echo $food_type_err; ?></span>
-                                        </div>
-                                        <div class="mb-3 <?php echo (!empty($restaurant_type_err)) ? 'has-error' : ''; ?>">
-                                            <label class="form-label"style="color: black;"><strong>Restaurant Type</strong></label>
-                                            <select name="restaurant_type" class="form-select mb-3" value="<?php echo $restaurant_type; ?>">
-												<option <?php echo ($restaurant_type == 'Cafe') ? "selected": "" ?>>Cafe</option>
-												<option <?php echo ($restaurant_type == 'Fine Dining') ? "selected": "" ?>>Fine Dining</option>
-												<option <?php echo ($restaurant_type == 'Fast Food') ? "selected": "" ?>>Fast Food</option>
-												<option <?php echo ($restaurant_type == 'Prasmanan') ? "selected": "" ?>>Prasmanan</option>
-												<option <?php echo ($restaurant_type == 'Family Restaurant') ? "selected": "" ?>>Family Restaurant</option>
-												<option <?php echo ($restaurant_type == 'Steakhouse') ? "selected": "" ?>>Steakhouse</option>
-											</select>
-											<span class="help-block"><?php echo $restaurant_type_err; ?></span>
-                                        </div>
-										<div class="mb-3 <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
-                                            <label class="form-label"style="color: black;"><strong>Phone Number</strong></label>
-                                            <input class="form-control form-control-lg" type="phone" name="phone" placeholder="Enter your restaurant phone number" value="<?php echo $phone; ?>">
-												<span class="help-block"><?php echo $phone_err; ?></span>
-                                        </div>
-										<div class="form-group">
-											<div class="mb-3 <?php echo (!empty($website_err)) ? 'has-error' : ''; ?>">
-												<label class="form-label"style="color: black;"><strong>Url Website</strong></label>
-												<input class="form-control form-control-lg" type="text" name="website" placeholder="Enter your restaurant website" value="<?php echo $website; ?>">
-													<span class="help-block"><?php echo $website_err; ?></span>
-											</div>
-											<div class="mb-3">
-												<label class="form-label"style="color: black;"><strong>Business Time</strong></label>
-												<div class="row ">
-													<div class="col-lg-6 <?php echo (!empty($business_time_open_err)) ? 'has-error' : ''; ?> ">
-														<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time_open; ?>">
-														<span class="help-block"><?php echo $business_time_open_err; ?></span>
-													</div>
-													<div class="col-lg-6 <?php echo (!empty($business_time_closes_err)) ? 'has-error' : ''; ?>">
-														<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time_closes; ?>">
-														<span class="help-block"><?php echo $business_time_closes_err; ?></span>
-													</div>
-												</div>
-											</div>
-										</div>
 								</div>
 							</div>
 							<!-- left code ends here -->

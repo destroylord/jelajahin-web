@@ -209,7 +209,7 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssssssi", $param_name, $param_email, $param_username, $param_phone, $param_jenis_kelamin, $param_jabatan, $param_password, $param_uuid_admin);
+            mysqli_stmt_bind_param($stmt, "ssssssss", $param_name, $param_email, $param_username, $param_phone, $param_jenis_kelamin, $param_jabatan, $param_password, $param_uuid_admin);
             
             // Set parameters
             $param_name = $name;

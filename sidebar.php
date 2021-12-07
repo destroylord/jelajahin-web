@@ -1,6 +1,6 @@
 <nav id="sidebar" class="sidebar js-sidebar" >
 			<div class="sidebar-content js-simplebar" >
-				<a class="sidebar-brand" href="http://localhost/jelajahin-web/index.php" style="background-color:#9ED763;">
+				<a class="sidebar-brand" href="../index.php" style="background-color:#9ED763;">
 					<span class="align-middle"><img src="../img/avatars/logo1.png" alt="JelajahIn" class="" width="95" height="23" /></span>
 				</a>
 
@@ -16,12 +16,12 @@
             			</a>
 						<ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="http://localhost/jelajahin-web/admin/pages-admin.php" class="nav-link px-0"> 
+                                <a href="../admin/pages-admin.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Admin Data</span> 
 								</a>
                             </li>
                             <li>
-                                <a href="http://localhost/jelajahin-web/admin/pages-admin-add.php" class="nav-link px-0"> 
+                                <a href="../admin/pages-admin-add.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Add Admin</span>
 								</a>
                             </li>
@@ -35,12 +35,12 @@
 						</a>
 						<ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="http://localhost/jelajahin-web/wisata/pages-wisata.php" class="nav-link px-0"> 
+                                <a href="../wisata/pages-wisata.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Wisata Data</span> 
 								</a>
                             </li>
                             <li>
-                                <a href="http://localhost/jelajahin-web/wisata/pages-wisata-add.php" class="nav-link px-0"> 
+                                <a href="../wisata/pages-wisata-add.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Wisata Add</span>
 								</a>
                             </li>
@@ -54,12 +54,12 @@
             			</a>
 						<ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="http://localhost/jelajahin-web/restaurant/pages-restaurant.php" class="nav-link px-0"> 
+                                <a href="../restaurant/pages-restaurant.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Restaurant Data</span> 
 								</a>
                             </li>
                             <li>
-                                <a href="http://localhost/jelajahin-web/restaurant/pages-restaurant-add.php" class="nav-link px-0"> 
+                                <a href="../restaurant/pages-restaurant-add.php" class="nav-link px-0"> 
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Add Restaurant</span>
 								</a>
                             </li>

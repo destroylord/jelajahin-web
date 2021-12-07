@@ -18,9 +18,6 @@
 
 	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 </head>
 
 <body>
@@ -36,58 +33,50 @@
 
 			<main class="content">
 				<div class="container-fluid p-0">
-					<h1 class="h3 mb-3"><strong>Data Wisata</strong></h1>
-
+					<h1 class="mb-3"><strong>Data Wisata</strong></h1>
+                    <a href="pages-wisata-add.php" class="btn btn-success mb-1" style="">Add Wisata</a>
 					<div class="row">
 						<div class="col-xl-12">
 							<div class="card">
                                 <div class="card-body">
-                                    <table class="table table-striped">
-                                            <thead class="thead-light">
+                                    <table class="table table-hover my-0">
+                                        <thead class="thead-light">
+                                            <tr style="color: #388E3C">
+                                            <th scope="col">Photo</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Harga Ticket</th>
+                                            <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        <?php
+
+                                            require_once "../conection.php";
+
+                                            $sql = mysqli_query($link, "SELECT * FROM wisata");
+
+                                            while ($data = mysqli_fetch_array($sql)) { ?>   
+                                                
                                                 <tr>
-                                                <th scope="col">Photo</th>
-                                                <th scope="col">Nama</th>
-                                                <th scope="col">Deskripsi Wisata</th>
-                                                <th scope="col">Harga Ticket</th>
-                                                <th scope="col">Provinsi</th>
-                                                <th scope="col">Kota</th>
-                                                <th scope="col">Action</th>
+                                                    <td>
+                                                        <img src="uploads/<?php echo $data['image_url'] ?>" alt="" width="100" height="100">
+                                                    </td>
+                                                    <td><?php echo $data['name'] ?></td>
+                                                    <td><?php echo $data['address'] ?></td>
+                                                    <td><?php echo $data['ticket_price'] ?></td>
+                                                    <td>
+                                                    <a href='update-wisata.php? uuid_wisata=". $row['uuid_wisata'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>
+                                                    <a href='delete-wisata.php? uuid_wisata=". $row['uuid_wisata'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>
+                                                </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                              
-                                            <?php
 
-                                                require_once "../conection.php";
+                                        <?php
+                                            }
 
-                                                $sql = mysqli_query($link, "SELECT * FROM wisata");
-
-                                                while ($data = mysqli_fetch_array($sql)) { ?>   
-                                                    
-                                                    <tr>
-                                                        <td>
-                                                            <img src="uploads/<?php echo $data['image_url'] ?>" alt="" width="200" height="200">
-                                                        </td>
-                                                        <td><?php echo $data['name'] ?></td>
-                                                        <td><?php echo $data['description'] ?></td>
-                                                        <td><?php echo $data['ticket_price'] ?></td>
-                                                        <td><?php echo $data['province_name'] ?></td>
-                                                        <td><?php echo $data['city_name'] ?></td>
-                                                        <td>
-                                                            <a href="pages-wisata-edit.php?uuid_wisata=<?=$data['uuid_wisata'];?>">Edit</a>
-                                                            <form action="hapus.php" method="POST">
-                                                                <input type="hidden" name="delete_uuid" value="<?=$data['uuid_wisata']?>">
-                                                                <input type="hidden" name="delete_images" value="<?=$data['image_url']?>">
-                                                                <button type="submit" class="btn btn-danger" name="delete_images_wisata">Hapus</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-
-                                            <?php
-                                                }
-
-                                            ?>
-                                            </tbody>
+                                        ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
