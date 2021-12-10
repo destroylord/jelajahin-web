@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate image 
-	$input_image_url = $_POST["image_url"];
+	$input_image_url = $_FILES["image_url"];
     if(empty($input_image_url)){
         $image_url_err = "Please input the image_url.";
     } else{

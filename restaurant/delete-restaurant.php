@@ -5,7 +5,7 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
     require_once "../conection.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM 'restaurant' WHERE uuid_restaurant = ?";
+    $sql = "DELETE FROM restaurant WHERE uuid_restaurant = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters

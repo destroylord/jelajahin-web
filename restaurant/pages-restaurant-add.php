@@ -66,24 +66,33 @@ include "proses-add-restaurant.php";
 									</div>
 									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" style="color: black;"><strong>Restaurant Description</strong></label>
-										<textarea class="form-control span12" rows="6" name="description" type="text"
+										<textarea class="form-control span12" rows="5" name="description" type="text"
 										placeholder="Enter your restaurant description" value="<?php echo $description; ?>" ></textarea>
 											<span class="help-block"><?php echo $description_err; ?></span>
 									</div>
-									<div class="mb-3 <?php echo (!empty($price_range_err)) ? 'has-error' : ''; ?>">
+									<div class="mb-3">
 										<label class=" form-label"style="color: black;"><strong>Range Price</strong></label>
-										<div class="mb-3 row">
-											<label class="col-sm-1 col-form-label" style="color: black;">Rp</label>
-											<div class="col-sm-11">
-												<input class="form-control" type="text" name="price_range" placeholder="Enter your range price" value="<?php echo $price_range; ?>">
-												<span class="help-block"><?php echo $price_range_err; ?></span>
+										<div class="row">
+											<div class="col-lg-6 row">
+												<label class="col-lg-1 col-form-label" style="color: black;">Rp</label>
+												<div class="col-lg-10 <?php echo (!empty($price_min_err)) ? 'has-error' : ''; ?>">
+													<input class="form-control" type="text" name="price_min" placeholder="Enter price min" value="<?php echo $price_min; ?>">
+													<span class="help-block"><?php echo $price_min_err; ?></span>
+												</div>
+											</div>
+											<div class="col-lg-6 row ">
+												<label class="col-lg-1 col-form-label" style="color: black;">Rp</label>
+												<div class="col-lg-10 <?php echo (!empty($price_max_err)) ? 'has-error' : ''; ?>">
+													<input class="form-control" type="text" name="price_max" placeholder="Enter price max" value="<?php echo $price_max; ?>">
+													<span class="help-block"><?php echo $price_max_err; ?></span>
+												</div>
 											</div>
 										</div>
 									</div>
-									<div class="input-group mb-3 <?php echo (!empty($file_err)) ? 'has-error' : ''; ?>">
-										<input type="file" class="form-control" name="file" value="<?php echo $file; ?>">
-										<label class="input-group-text" for="file">Upload</label>
-										<span class="help-block"><?php echo $file_err; ?></span>
+									<div class="mb-3 <?php echo (!empty($image_err)) ? 'has-error' : ''; ?>">
+										<label class="form-label" style="color: black;"><strong>Restaurant Photo</strong></label>
+										<input type="file" class="form-control" name="image" id="image" value="<?php echo $image; ?>">
+										<span class="help-block"><?php echo $image_err; ?></span>
 									</div>
 								</div>
 							</div>

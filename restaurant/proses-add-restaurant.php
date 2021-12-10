@@ -1,5 +1,5 @@
 <?php
-// Include conection file
+// Include conection
 require_once "../conection.php";
 function uuid($data  =  null) {
     $data  =  $data  ??  random_bytes ( 16 );
@@ -16,11 +16,11 @@ function uuid($data  =  null) {
 session_start();
 
 // Define variables and initialize with empty values
-$uuid_restaurant = $name = $description = $price_range = $food_type = $restaurant_type = $phone = $website = $business_time_open = 
-$business_time_closes = $file = $provinsi = $kabupaten = $kecamatan = $kelurahan = $address = $latitude = $longitude = "";
+$uuid_restaurant = $name = $description = $price_min = $price_max = $food_type = $restaurant_type = $phone = $website = $business_time_open = 
+$business_time_closes = $image = $provinsi = $kabupaten = $kecamatan = $kelurahan = $address = $latitude = $longitude = "";
 
-$uuid_restaurant_err = $name_err = $description_err = $price_range_err = $food_type_err = $restaurant_type_err = $phone_err = $website_err = 
-$business_time_open_err = $business_time_closes_err = $file_err = $provinsi_err = $kabupaten_err = $kecamatan_err = $kelurahan_err = $address_err = $latitude_err = $longitude_err = "";
+$uuid_restaurant_err = $name_err = $description_err = $price_min_err = $price_max_err = $food_type_err = $restaurant_type_err = $phone_err = $website_err = 
+$business_time_open_err = $business_time_closes_err = $image_err = $provinsi_err = $kabupaten_err = $kecamatan_err = $kelurahan_err = $address_err = $latitude_err = $longitude_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -43,11 +43,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     // Validate price_range
-    $input_price_range = $_POST["price_range"];
-    if(empty($input_price_range)){
-        $price_range_err = "Please enter the price range food amount.";
+    $input_price_min = $_POST["price_min"];
+    if(empty($input_price_min)){
+        $price_min_err = "Please enter the price min food amount.";
     } else{
-        $price_range = $input_price_range;
+        $price_min = $input_price_min;
+    }
+
+    // Validate price_range
+    $input_price_max = $_POST["price_max"];
+    if(empty($input_price_max)){
+        $price_max_err = "Please enter the price max food amount.";
+    } else{
+        $price_max = $input_price_max;
     }
 
 	// Validate food_type
@@ -101,11 +109,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate image 
-	$input_file = $_POST["file"];
-    if(empty($input_file)){
-        $file_err = "Please input the file.";
+    if(empty($_FILES['image']['name'])){
+        $image_err = "Please enter restaurant image";
     } else{
-        $file = $input_file;
+        $image = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], "uploads/". $_FILES['image']['name']);
     }
 
 	//validate provinsi
@@ -165,32 +173,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 
     // Check input errors before inserting in database
-    if(empty($uuid_restaurant_err) && empty($name_err) && empty($description_err) && empty($price_range_err) && empty($food_type_err) && empty($restaurant_type_err) 
-	&& empty ($phone_err) && empty($website_err) && empty($business_time_open_err) && empty($business_time_closes_err) && empty($file_err) && empty($provinsi_err) 
+    if(empty($uuid_restaurant_err) && empty($name_err) && empty($description_err) && empty($price_min_err) && empty($price_max_err) && empty($food_type_err) && empty($restaurant_type_err) 
+	&& empty ($phone_err) && empty($website_err) && empty($business_time_open_err) && empty($business_time_closes_err) && empty($image_err) && empty($provinsi_err) 
 	&& empty($kabupaten_err) && empty($kecamatan_err) && empty($kelurahan_err) && empty($address_err) && empty($latitude_err) && empty($longitude_err)){
         // Prepare an insert statement
-        $sql = "INSERT INTO restaurant (uuid_restaurant, name, description, price_range, food_type, restaurant_type, phone, website, business_time_open, 
-		business_time_closes, file, provinsi_name, kabupaten_name, kecamatan_name, kelurahan_name, address, lat, lng) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO restaurant (uuid_restaurant, name, description, price_min, price_max, food_type, restaurant_type, phone, website, business_time_open, 
+		business_time_closes, image, provinsi_id, kabupaten_id, kecamatan_id, kelurahan_id, address, latitude, longtitude) 
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssssssssssssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_range, $param_food_type, 
-			$param_restaurant_type, $param_phone, $param_website, $param_business_time_open, $param_business_time_closes, $param_file, $param_provinsi, 
+            mysqli_stmt_bind_param($stmt, "sssssssssssbsssssss", $param_uuid_restaurant, $param_name, $param_description, $param_price_min, $param_price_max, $param_food_type, 
+			$param_restaurant_type, $param_phone, $param_website, $param_business_time_open, $param_business_time_closes, $param_image, $param_provinsi, 
 			$param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
 
             // Set parameters
 			$param_uuid_restaurant		= $uuid_restaurant;
             $param_name					= $name;
             $param_description			= $description;
-            $param_price_range			= $price_range;
+            $param_price_min			= $price_min;
+            $param_price_max            = $price_max;
 			$param_food_type			= $food_type;
 			$param_restaurant_type 		= $restaurant_type;
 			$param_phone				= $phone;
 			$param_website				= $website;
 			$param_business_time_open	= $business_time_open;
 			$param_business_time_closes	= $business_time_closes;
-			$param_file					= $file;
+			$param_image				= $image;
 			$param_provinsi				= $provinsi;
 			$param_kabupaten			= $kabupaten;
 			$param_kecamatan			= $kecamatan;

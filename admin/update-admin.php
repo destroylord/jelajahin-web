@@ -48,6 +48,7 @@ if(isset($_POST["uuid_admin"]) && !empty($_POST["uuid_admin"])){
     if(empty(trim($_POST["email"]))){
         $email_err = "Please enter your email.";
     } else{
+
     // Prepare a select statement
     $sql = "SELECT uuid_admin FROM admin WHERE email = ?";
             

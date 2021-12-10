@@ -175,7 +175,7 @@ include "proses-add-wisata.php";
 								<!-- left code ends here -->
 
 								<input type="submit" class="btn btn-primary mt-3" value="Submit" name="submit" style="background-color: #9ED763; border-color:#9ED763;">
-								<a href="pages-restaurant.php" class="btn btn-danger mt-3">Cancel</a>
+								<a href="pages-wisata.php" class="btn btn-danger mt-3">Cancel</a>
 							</div>
 						</div>
 					</form>
