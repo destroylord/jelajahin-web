@@ -17,7 +17,6 @@ session_start();
 
 // Define variables and initialize with empty values
 $uuid_wisata = $name = $description = $ticket_price = $image_url = $provinsi = $kabupaten = $kecamatan = $kelurahan = $address = $latitude = $longitude = "";
-
 $uuid_wisata_err = $name_err = $description_err = $ticket_price_err = $image_url_err = $provinsi_err = $kabupaten_err = $kecamatan_err = $kelurahan_err = $address_err = $latitude_err = $longitude_err = "";
 
 // Processing form data when form is submitted
@@ -49,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate image 
-	$input_image_url = $_FILES["image_url"];
+	$input_image_url = $_FILES["image_url"]["name"];
     if(empty($input_image_url)){
         $image_url_err = "Please input the image_url.";
     } else{
@@ -121,7 +120,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssssssssss", $param_uuid_wisata, $param_name, $param_description, $param_ticket_price, $param_image_url, $param_provinsi, 
+            mysqli_stmt_bind_param($stmt, "ssssbsssssss", $param_uuid_wisata, $param_name, $param_description, $param_ticket_price, $param_image_url, $param_provinsi, 
 			$param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
 
             // Set parameters

@@ -113,7 +113,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $image_err = "Please enter restaurant image";
     } else{
         $image = $_FILES['image']['name'];
-        move_uploaded_file($_FILES['image']['tmp_name'], "uploads/". $_FILES['image']['name']);
+        $temp  = $_FILES['image']['temp_name'];
+        $folder = "/img/photos/".$image;
+        move_uploaded_file($temp, $folder);
     }
 
 	//validate provinsi
@@ -179,7 +181,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Prepare an insert statement
         $sql = "INSERT INTO restaurant (uuid_restaurant, name, description, price_min, price_max, food_type, restaurant_type, phone, website, business_time_open, 
 		business_time_closes, image, provinsi_id, kabupaten_id, kecamatan_id, kelurahan_id, address, latitude, longtitude) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '$image', ?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters

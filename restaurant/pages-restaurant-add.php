@@ -53,7 +53,7 @@ include "proses-add-restaurant.php";
 				<div class="container-fluid p-0" >
 					<h1 class="mb-3"><strong>Add Data Restaurant</strong></h1>
 
-					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
 						<div class="row">	
 							<!-- start code on the left side of the page -->
 							<div class="col-lg-6">
@@ -91,7 +91,7 @@ include "proses-add-restaurant.php";
 									</div>
 									<div class="mb-3 <?php echo (!empty($image_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" style="color: black;"><strong>Restaurant Photo</strong></label>
-										<input type="file" class="form-control" name="image" id="image" value="<?php echo $image; ?>">
+										<input type="file" class="form-control" name="image" value="<?php echo $image; ?>">
 										<span class="help-block"><?php echo $image_err; ?></span>
 									</div>
 								</div>

@@ -57,12 +57,13 @@ function tambah($link){
         }
         
         // Define variables and initialize with empty values
-        $uuid_menu = $name = $description = $price = $food_category = $confirm_image_url = "";
+        $uuid_menu = $uuid_restaurant = $name = $description = $price = $food_category = $confirm_image_url = "";
         $uuid_menu_err = $name_err = $description_err = $price_err = $food_category_err = $confirm_image_url_err = "";
         
         // Processing form data when form is submitted
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $uuid_menu = uuid();
+            // $uuid_restaurant =
         
             // Validate name
             if(empty(trim($_POST["name"]))){
@@ -160,14 +161,15 @@ function tambah($link){
             empty($food_category_err) && empty($image_url_err) && empty($image_url_err)){
                 
                 // Prepare an insert statement
-                $sql = "INSERT INTO menu (uuid_menu, name, description, price, food_category, image_url) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO menu (uuid_menu, uuid_restaurant, name, description, price, food_category, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
                  
                 if($stmt = mysqli_prepare($link, $sql)){
                     // Bind variables to the prepared statement as parameters
-                    mysqli_stmt_bind_param($stmt, "isssss", $param_uuid_menu, $param_name, $param_description, $param_price,$param_food_category, $param_image_url);
+                    mysqli_stmt_bind_param($stmt, "sssssss", $param_uuid_menu, $param_uuid_restaurant, $param_name, $param_description, $param_price,$param_food_category, $param_image_url);
                     
                     // Set parameters
                     $param_uuid_menu = $uuid_menu;
+                    $param_uuid_restaurant = $uuid_restaurant;
                     $param_name = $name;
                     $param_description = $description;
                     $param_price = $price;
