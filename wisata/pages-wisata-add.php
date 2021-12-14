@@ -13,11 +13,7 @@ include "proses-add-wisata.php";
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-<<<<<<< HEAD
 	<link rel="shortcut icon" href="../img/icons/icon-48X48.png" />
-=======
-	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
->>>>>>> 49fd68e9338d59fb6da8c9c62773e0c47385e02a
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
