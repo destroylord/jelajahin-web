@@ -82,6 +82,16 @@
 									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Add penginapan</span>
 								</a>
                             </li>
+							<li>
+                                <a href="../penginapan/pages-fasilitas-hotel.php" class="nav-link px-0"> 
+									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Fasilitas Penginapan</span>
+								</a>
+                            </li>
+							<li>
+                                <a href="../penginapan/pages-fasilitas-hotel-add.php" class="nav-link px-0"> 
+									<span class="d-none d-sm-inline" style="color: black; margin-left: 30px; ">Add Fasilitas Penginapan</span>
+								</a>
+                            </li>
                         </ul>
 					</li>
 
