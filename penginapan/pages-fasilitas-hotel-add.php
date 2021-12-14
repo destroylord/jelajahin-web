@@ -21,7 +21,7 @@ session_start();
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>Kategori Add</title>
+	<title>Add Fasilitas Penginapan</title>
 
 	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@ session_start();
 
 			<main class="content">
 				<div class="container-fluid p-0" >
-					<h1 class="mb-3"><strong>Tambah Kategori Event</strong></h1>
+					<h1 class="mb-3"><strong>Tambah Fasilitas Penginapan</strong></h1>
 
 					<form class="container scrollspy-example" action="proses.php" method="post" enctype="multipart/form-data">
 
@@ -52,12 +52,11 @@ session_start();
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<h3><label for="">Nama Kategori</label></h3>
+								<h3><label for="">Nama Fasilitas Penginapan</label></h3>
 								<textarea name="nama" id="" cols="30" rows="1" class="form-control"></textarea>
 							</div>
 						</div>
 					</div>
-                        <input type="cancel" class="btn btn-primary mt-3" value="Batal" name="batal" style="background-color: #ED3838; border-color:#ED3838;" size="1">
 						<input type="submit" class="btn btn-primary mt-3" value="Simpan" name="simpan" style="background-color: #0ECB0A; border-color:#0ECB0A;">
 					</form>
 				</div>

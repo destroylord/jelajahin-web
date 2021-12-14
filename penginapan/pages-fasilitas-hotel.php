@@ -14,7 +14,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>List Kategori</title>
+	<title>List Fasilitas Penginapan</title>
 
 	<link href="../css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
 
 			<main class="content">
 				<div class="container-fluid p-0">
-					<h1 class="h3 mb-3"><strong>List Kategori</strong></h1>
+					<h1 class="h3 mb-3"><strong>List Fasilitas Penginapan</strong></h1>
 
 					<div class="row">
 						<div class="col-xl-12">
@@ -46,7 +46,7 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                 <th scope="col">No</th>
-                                                <th scope="col">Nama</th>
+                                                <th scope="col">Nama Fasilitas Penginapan</th>
                                                 <th rospawn="">Action</th>
                                                 </tr>
                                             </thead>
@@ -56,13 +56,13 @@
 
                                                 require_once "../conection.php";
 
-                                                $sql = mysqli_query($link, "SELECT * FROM kategori");
+                                                $sql = mysqli_query($link, "SELECT * FROM fasilitas_hotel");
 
                                                 while ($data = mysqli_fetch_array($sql)) { ?>   
                                                     
                                                     <tr>
                                                         <td><?php echo $data['id'] ?></td>
-                                                        <td><?php echo $data['nama'] ?></td>
+                                                        <td><?php echo $data['nama_fasilitas_hotel'] ?></td>
                                                         <td>
 															<a href="delete.php?id=<?php echo $data['id']; ?>">Hapus</a>
                                                         </td>
