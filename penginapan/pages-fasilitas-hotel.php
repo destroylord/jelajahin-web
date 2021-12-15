@@ -75,10 +75,13 @@
                                             </tbody>
                                     </table>
                                 </div>
+								
                             </div>
 						</div>
 					</div>
-
+                    <div class="container-fluid p-0">
+					<h1 class="h3 mb-3"><strong>Tambah Fasilitas Penginapan</strong>
+                <a href="../penginapan/pages-fasilitas-hotel-add.php">Klik Disini</a></h1>
 				</div>
 			</main>
 		</div>

@@ -60,7 +60,7 @@ session_start();
 						<input type="submit" class="btn btn-primary mt-3" value="Simpan" name="simpan" style="background-color: #0ECB0A; border-color:#0ECB0A;">
 					</form>
 				</div>
-				
+
 			</main>
 		</div>
 	</div>
