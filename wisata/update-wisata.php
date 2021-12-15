@@ -20,7 +20,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
     }
 
     // Validate description
-    $input_description = $_POST["description"];
+    $input_description = trim($_POST["description"]);
     if(empty($input_description)){
         $description_err = "Please enter an description.";
     } else{
@@ -213,11 +213,11 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="shortcut icon" href="../img/icons/logo.png" />
+	<link rel="shortcut icon" href="../img/icons/icon-48x48.png" />
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>menu page Restaurant</title>
+	<title>Update Wisata</title>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 	<link href="../css/app.css" rel="stylesheet">
@@ -253,7 +253,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 				<div class="container-fluid p-0" >
 					<h1 class="mb-3"><strong>Update Data Wisata</strong></h1>
 
-					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
 						<div class="row">	
 							<!-- start code on the left side of the page -->
 							<div class="col-lg-6">
@@ -267,7 +267,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" style="color: black;"><strong>Wisata Description</strong></label>
 										<textarea class="form-control span12" rows="5" name="description" type="text"
-										placeholder="Enter your Wisata description" value="<?php echo $description; ?>" ></textarea>
+										placeholder="Enter your Wisata description" value="<?php echo $description; ?>"></textarea>
 											<span class="help-block"><?php echo $description_err; ?></span>
 									</div>
                                 </div>
@@ -307,8 +307,8 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 										<div class="col-sm-6 mb-3 <?php echo (!empty($provinsi_err)) ? 'has-error' : ''; ?>">
 											<div class="form-group">
 												<label for="form_sex">Provinsi</label>
-												<select class="form-control m-b" name="propinsi" id="propinsi" value="<?php echo $provinsi; ?>">
-													<option selected value="">-- Pilih Provinsi --</option>
+												<select class="form-control m-b" name="propinsi" id="propinsi">
+													<option selected value="<?php echo $provinsi; ?>">-- Pilih Provinsi --</option>
 												</select>
 												<span class="help-block"><?php echo $provinsi_err; ?></span>
 											</div>

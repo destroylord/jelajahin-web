@@ -1,23 +1,23 @@
 <?php
 // Process delete operation after confirmation
-if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
+if(isset($_POST["uuid_penginapan"]) && !empty($_POST["uuid_penginapan"])){
     // Include conection file
     require_once "../conection.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM restaurant WHERE uuid_restaurant = ?";
+    $sql = "DELETE FROM penginapan WHERE uuid_penginapan = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_uuid_restaurant);
+        mysqli_stmt_bind_param($stmt, "i", $param_uuid_penginapan);
         
         // Set parameters
-        $param_uuid_restaurant = trim($_POST["uuid_restaurant"]);
+        $param_uuid_penginapan = trim($_POST["uuid_penginapan"]);
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
             // Records deleted successfully. Redirect to landing page
-            header("location: pages-restaurant.php");
+            header("location: pages-penginapan.php");
             exit();
         } else{
             echo "Oops! Something went wrong. Please try again later.";
@@ -30,9 +30,9 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
     // Close connection
     mysqli_close($link);
 } else{
-    // Check existence of uuid_restaurant parameter
-    if(empty(trim($_GET["uuid_restaurant"]))){
-        // URL doesn't contain uuid_restaurant parameter. Redirect to error page
+    // Check existence of uuid_penginapan parameter
+    if(empty(trim($_GET["uuid_penginapan"]))){
+        // URL doesn't contain uuid_penginapan parameter. Redirect to error page
         header("location: error.php");
         exit();
     }
@@ -68,11 +68,11 @@ if(isset($_POST["uuid_restaurant"]) && !empty($_POST["uuid_restaurant"])){
                     </div>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="popups" onclick=>
-                            <input type="hidden" name="uuid_restaurant" value="<?php echo trim($_GET["uuid_restaurant"]); ?>"/>
+                            <input type="hidden" name="uuid_penginapan" value="<?php echo trim($_GET["uuid_penginapan"]); ?>"/>
                             <p>Are you sure you want to delete this record?</p><br>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="pages-restaurant.php" class="btn btn-default">No</a>
+                                <a href="pages-penginapan.php" class="btn btn-default">No</a>
                             </p>
                         </div>
                     </form>

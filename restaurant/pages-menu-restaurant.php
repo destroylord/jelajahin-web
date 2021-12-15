@@ -53,7 +53,7 @@ function uuid($data  =  null) {
 // --- Fngsi tambah data (Create)
 function tambah($link){
     
-    if (isset($_POST['submit'])){
+    if (isset($_POST['aksi'])){
         $uuid_menu = uuid();
         $category = $_POST['category'];
         $name = $_POST['name'];
@@ -118,7 +118,7 @@ function tambah($link){
                 </div>
                 <!-- right code ends here -->
             </div>
-            <input type="submit" class="btn btn-primary mt-2" name="submit" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
+            <input type="submit" class="btn btn-primary mt-2" name="aksi" value="Submit" style="background-color: #9ED763; border-color:#9ED763;">
             <input type="reset" class="btn btn-danger mt-2" name="reset" value="Clear">
         </form>
     <?php

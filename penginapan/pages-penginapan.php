@@ -65,11 +65,11 @@
 													echo "<td>" . $row['alamat'] . "</td>";
 													echo "<td>" . $row['price_range'] . "</td>";
 													echo "<td>";
-														echo "<a href='pages-facility-penginapan.php? id=". $row['uuid_penginapan'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
+														echo "<a href='pages-facility-penginapan.php?uuid_penginapan=". $row['uuid_penginapan'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
 													echo "</td>";
 													echo "<td>";
-														echo "<a href='update-penginapan.php? id=". $row['uuid_penginapan'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";
-														echo "<a href='delete-penginapan.php? id=". $row['uuid_penginapan'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
+														echo "<a href='update-penginapan.php?uuid_penginapan=". $row['uuid_penginapan'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-1 ' data-feather='edit-3' style='color: black;'></span></a>";
+														echo "<a href='delete-penginapan.php?uuid_penginapan=". $row['uuid_penginapan'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
 													echo "</td>";
 												echo "</tr>";
 												}
