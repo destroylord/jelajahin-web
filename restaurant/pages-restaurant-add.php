@@ -1,6 +1,3 @@
-<?php
-include "proses-add-restaurant.php";
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,46 +50,46 @@ include "proses-add-restaurant.php";
 				<div class="container-fluid p-0" >
 					<h1 class="mb-3"><strong>Add Data Restaurant</strong></h1>
 
-					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+					<form class="container scrollspy-example" action="proses-add-restaurant.php" method="POST" enctype="multipart/form-data">
 						<div class="row">	
 							<!-- start code on the left side of the page -->
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label class=" form-label" style="color: black;"><strong>Restaurant Name</strong></label>
-									<div class="mb-3 <?php echo (!empty($name_err)) ? 'has-error' : ''; ?> ">
+									<!-- <div class="mb-3 <?php echo (!empty($name_err)) ? 'has-error' : ''; ?> "> -->
 										<input type="text" class="form-control form-control-lg" name="name" id="name" 
-										placeholder="Enter your restaurant name" value="<?php echo $name; ?>">
-											<span class="help-block"><?php echo $name_err; ?></span>        
-									</div>
-									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
+										placeholder="Enter your restaurant name">
+											<!-- <span class="help-block"><?php echo $name_err; ?></span>         -->
+									<!-- </div> -->
+									<!-- <div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>"> -->
 										<label class="form-label" style="color: black;"><strong>Restaurant Description</strong></label>
 										<textarea class="form-control span12" rows="5" name="description" type="text"
-										placeholder="Enter your restaurant description" value="<?php echo $description; ?>" ></textarea>
-											<span class="help-block"><?php echo $description_err; ?></span>
-									</div>
+										placeholder="Enter your restaurant description" ></textarea>
+											<!-- <span class="help-block"><?php echo $description_err; ?></span> -->
+									<!-- </div> -->
 									<div class="mb-3">
 										<label class=" form-label"style="color: black;"><strong>Range Price</strong></label>
 										<div class="row">
 											<div class="col-lg-6 row">
 												<label class="col-lg-1 col-form-label" style="color: black;">Rp</label>
-												<div class="col-lg-10 <?php echo (!empty($price_min_err)) ? 'has-error' : ''; ?>">
-													<input class="form-control" type="text" name="price_min" placeholder="Enter price min" value="<?php echo $price_min; ?>">
-													<span class="help-block"><?php echo $price_min_err; ?></span>
+												<div class="col-lg-10 ">
+													<input class="form-control" type="text" name="price_min" placeholder="Enter price min">
+													<!-- <span class="help-block"><?php echo $price_min_err; ?></span> -->
 												</div>
 											</div>
 											<div class="col-lg-6 row ">
 												<label class="col-lg-1 col-form-label" style="color: black;">Rp</label>
-												<div class="col-lg-10 <?php echo (!empty($price_max_err)) ? 'has-error' : ''; ?>">
-													<input class="form-control" type="text" name="price_max" placeholder="Enter price max" value="<?php echo $price_max; ?>">
-													<span class="help-block"><?php echo $price_max_err; ?></span>
+												<div class="col-lg-10">
+													<input class="form-control" type="text" name="price_max" placeholder="Enter price max" >
+													<!-- <span class="help-block"><?php echo $price_max_err; ?></span> -->
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="mb-3 <?php echo (!empty($image_err)) ? 'has-error' : ''; ?>">
+									<div class="mb-3">
 										<label class="form-label" style="color: black;"><strong>Restaurant Photo</strong></label>
-										<input type="file" class="form-control" name="image" id="image" value="<?php echo $image; ?>">
-										<span class="help-block"><?php echo $image_err; ?></span>
+										<input type="file" class="form-control" name="image">
+										<!-- <span class="help-block"><?php echo $image_err; ?></span> -->
 									</div>
 								</div>
 							</div>
@@ -104,46 +101,46 @@ include "proses-add-restaurant.php";
                                         <div class="mb-3 <?php echo (!empty($food_type_err)) ? 'has-error' : ''; ?>">
                                             <label class="form-label"style="color: black;"><strong>Food Type</strong></label>
                                             <select name="food_type" class="form-select mb-3" value="<?php echo $food_type; ?>">
-												<option <?php echo ($food_type == 'Chinnes Food') ? "selected": "" ?>>Chinnes Food</option>
-												<option <?php echo ($food_type == 'Western Food') ? "selected": "" ?>>Western Food</option>
-												<option <?php echo ($food_type == 'Java Food') ? "selected": "" ?>>Java Food</option>
-												<option <?php echo ($food_type == 'Maduran Food') ? "selected": "" ?>>Maduran Food</option>
+												<option value="Chinnes Food">Chinnes Food</option>
+												<option value="Western Food">Western Food</option>
+												<option value="Java Food">Java Food</option>
+												<option value="Maduran Food">Maduran Food</option>
 											</select>
-											<span class="help-block"><?php echo $food_type_err; ?></span>
+											<!-- <span class="help-block"><?php echo $food_type_err; ?></span> -->
                                         </div>
                                         <div class="mb-3 <?php echo (!empty($restaurant_type_err)) ? 'has-error' : ''; ?>">
                                             <label class="form-label"style="color: black;"><strong>Restaurant Type</strong></label>
                                             <select name="restaurant_type" class="form-select mb-3" value="<?php echo $restaurant_type; ?>">
-												<option <?php echo ($restaurant_type == 'Cafe') ? "selected": "" ?>>Cafe</option>
-												<option <?php echo ($restaurant_type == 'Fine Dining') ? "selected": "" ?>>Fine Dining</option>
-												<option <?php echo ($restaurant_type == 'Fast Food') ? "selected": "" ?>>Fast Food</option>
-												<option <?php echo ($restaurant_type == 'Prasmanan') ? "selected": "" ?>>Prasmanan</option>
-												<option <?php echo ($restaurant_type == 'Family Restaurant') ? "selected": "" ?>>Family Restaurant</option>
-												<option <?php echo ($restaurant_type == 'Steakhouse') ? "selected": "" ?>>Steakhouse</option>
+												<option value="Cafe">Cafe</option>
+												<option value="Fine Dining">Fine Dining</option>
+												<option value="Fast Food</">Fast Food</option>
+												<option value="Prasmanan">Prasmanan</option>
+												<option value="Family Restaurant">Family Restaurant</option>
+												<option value="Steakhouse">Steakhouse</option>
 											</select>
-											<span class="help-block"><?php echo $restaurant_type_err; ?></span>
+											<!-- <span class="help-block"><?php echo $restaurant_type_err; ?></span> -->
                                         </div>
 										<div class="mb-3 <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
                                             <label class="form-label"style="color: black;"><strong>Phone Number</strong></label>
-                                            <input class="form-control form-control-lg" type="phone" name="phone" placeholder="Enter your restaurant phone number" value="<?php echo $phone; ?>">
-												<span class="help-block"><?php echo $phone_err; ?></span>
+                                            <input class="form-control form-control-lg" type="phone" name="phone" placeholder="Enter your restaurant phone number" maxlength="13">
+												<!-- <span class="help-block"><?php echo $phone_err; ?></span> -->
                                         </div>
 										<div class="form-group">
 											<div class="mb-3 <?php echo (!empty($website_err)) ? 'has-error' : ''; ?>">
 												<label class="form-label"style="color: black;"><strong>Url Website</strong></label>
-												<input class="form-control form-control-lg" type="text" name="website" placeholder="Enter your restaurant website" value="<?php echo $website; ?>">
-													<span class="help-block"><?php echo $website_err; ?></span>
+												<input class="form-control form-control-lg" type="text" name="website" placeholder="Enter your restaurant website">
+													<!-- <span class="help-block"><?php echo $website_err; ?></span> -->
 											</div>
 											<div class="mb-3">
 												<label class="form-label"style="color: black;"><strong>Business Time</strong></label>
 												<div class="row ">
 													<div class="col-lg-6 <?php echo (!empty($business_time_open_err)) ? 'has-error' : ''; ?> ">
-														<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time_open; ?>">
-														<span class="help-block"><?php echo $business_time_open_err; ?></span>
+														<input class="form-control form-control-lg" type="time" name="business_time_open" placeholder="Enter your restaurant business business_time" >
+														<!-- <span class="help-block"><?php echo $business_time_open_err; ?></span> -->
 													</div>
 													<div class="col-lg-6 <?php echo (!empty($business_time_closes_err)) ? 'has-error' : ''; ?>">
-														<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time" value="<?php echo $business_time_closes; ?>">
-														<span class="help-block"><?php echo $business_time_closes_err; ?></span>
+														<input class="form-control form-control-lg " type="time" name="business_time_closes" placeholder="Enter your restaurant business business_time">
+														<!-- <span class="help-block"><?php echo $business_time_closes_err; ?></span> -->
 													</div>
 												</div>
 											</div>
@@ -169,7 +166,7 @@ include "proses-add-restaurant.php";
 												<select class="form-control m-b" name="propinsi" id="propinsi" value="<?php echo $provinsi; ?>">
 													<option selected value="">-- Pilih Provinsi --</option>
 												</select>
-												<span class="help-block"><?php echo $provinsi_err; ?></span>
+												<!-- <span class="help-block"><?php echo $provinsi_err; ?></span> -->
 											</div>
 										</div>
 										<div class="col-sm-6 mb-3 <?php echo (!empty($kabupaten_err)) ? 'has-error' : ''; ?>">
@@ -178,7 +175,7 @@ include "proses-add-restaurant.php";
 												<select class="form-control m-b" name="kabupaten" id="kabupaten" value="<?php echo $kabupaten; ?>">
 													<option selected value="">-- Pilih Kabupaten --</option>
 												</select>
-												<span class="help-block"><?php echo $kabupaten_err; ?></span>
+												<!-- <span class="help-block"><?php echo $kabupaten_err; ?></span> -->
 											</div>
 										</div>
 									</div>
@@ -190,7 +187,7 @@ include "proses-add-restaurant.php";
 												<select class="form-control m-b" name="kecamatan" id="kecamatan" value="<?php echo $kecamatan; ?>">
 													<option selected value="">-- Pilih Kecamatan --</option>
 												</select>
-												<span class="help-block"><?php echo $kecamatan_err; ?></span>
+												<!-- <span class="help-block"><?php echo $kecamatan_err; ?></span> -->
 											</div>
 										</div>
 										<div class="col-sm-6 <?php echo (!empty($kelurahan_err)) ? 'has-error' : ''; ?>">
@@ -199,7 +196,7 @@ include "proses-add-restaurant.php";
 												<select class="form-control m-b" name="kelurahan" id="kelurahan" value="<?php echo $kelurahan; ?>">
 													<option selected value="">-- Pilih Kelurahan --</option>
 												</select>
-												<span class="help-block"><?php echo $kelurahan_err; ?></span>
+												<!-- <span class="help-block"><?php echo $kelurahan_err; ?></span> -->
 											</div>
 										</div>
 									</div>
@@ -211,20 +208,20 @@ include "proses-add-restaurant.php";
 									<div class="mb-3 <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label">Full Address</label>
 										<textarea class="form-control span12" rows="5" name="address" id="address"
-										placeholder="Enter your restaurant address" value="<?php echo $address; ?>" ></textarea>
-										<span class="help-block"><?php echo $address_err; ?></span>
+										placeholder="Enter your restaurant address" ></textarea>
+										<!-- <span class="help-block"><?php echo $address_err; ?></span> -->
 									</div>
 								</div>
 								<div class="form-group col-lg-3">
 									<div class="mb-3 <?php echo (!empty($latitude_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" for="lat">Latitude</label>
-										<input class="form-control form-control-lg" type="text" name="lat" id="lat" placeholder="lat coordinate"value="<?php echo $latitude; ?>" />
-										<span class="help-block"><?php echo $latitude_err; ?></span>
+										<input class="form-control form-control-lg" type="text" name="lat" id="lat" placeholder="lat coordinate" />
+										<!-- <span class="help-block"><?php echo $latitude_err; ?></span> -->
 									</div>
 									<div class="mb-3 <?php echo (!empty($longitude_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" for="lng">Longitude</label>
-										<input class="form-control form-control-lg" type="text" name="lng" id="lng" placeholder="long coordinate"value="<?php echo $longitude; ?>" />
-										<span class="help-block"><?php echo $longitude_err; ?></span>
+										<input class="form-control form-control-lg" type="text" name="lng" id="lng" placeholder="long coordinate"/>
+										<!-- <span class="help-block"><?php echo $longitude_err; ?></span> -->
 									</div>
 									
 								</div>

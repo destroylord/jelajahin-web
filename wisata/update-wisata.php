@@ -251,7 +251,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 
 			<main class="content">
 				<div class="container-fluid p-0" >
-					<h1 class="mb-3"><strong>Add Data Wisata</strong></h1>
+					<h1 class="mb-3"><strong>Update Data Wisata</strong></h1>
 
 					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 						<div class="row">	
@@ -266,7 +266,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 									</div>
 									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" style="color: black;"><strong>Wisata Description</strong></label>
-										<textarea class="form-control span12" rows="6" name="description" type="text"
+										<textarea class="form-control span12" rows="5" name="description" type="text"
 										placeholder="Enter your Wisata description" value="<?php echo $description; ?>" ></textarea>
 											<span class="help-block"><?php echo $description_err; ?></span>
 									</div>
@@ -375,7 +375,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 								<!-- left code ends here -->
 
 								<input type="submit" class="btn btn-primary mt-3" value="Submit" name="submit" style="background-color: #9ED763; border-color:#9ED763;">
-								<a href="pages-restaurant.php" class="btn btn-danger mt-3">Cancel</a>
+								<a href="pages-wisata.php" class="btn btn-danger mt-3">Cancel</a>
 							</div>
 						</div>
 					</form>

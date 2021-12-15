@@ -62,7 +62,7 @@
 												echo "<tr>";
 													echo "<td>" 
 													?>
-													<img src="uploads/<?php echo $data['file'] ?>" alt="" width="100" height="100">
+													<img src="/img/photos/<?php echo $data['image'] ?>" alt="" width="100" height="100">
 													<?php
 													"</td>";
 													echo "<td>" . $row['name'] . "</td>";
