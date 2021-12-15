@@ -21,6 +21,9 @@
 
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    
 </head>
 
 <body>
@@ -61,10 +64,10 @@
                                                 while ($data = mysqli_fetch_array($sql)) { ?>   
                                                     
                                                     <tr>
-                                                        <td><?php echo $data['id'] ?></td>
-                                                        <td><?php echo $data['nama_fasilitas_hotel'] ?></td>
+                                                        <td><?php echo $data['id_fasilitas_hotel'] ?></td>
+                                                        <td><?php echo $data['nama'] ?></td>
                                                         <td>
-															<a href="delete.php?id=<?php echo $data['id']; ?>">Hapus</a>
+															<a href="delete.php?id=<?php echo $data['id_fasilitas_hotel']; ?> " ><span data-feather='trash' style='color: black;'></span></a>
                                                         </td>
                                                     </tr>
 
