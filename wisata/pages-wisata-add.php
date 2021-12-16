@@ -53,7 +53,7 @@ include "proses-add-wisata.php";
 				<div class="container-fluid p-0" >
 					<h1 class="mb-3"><strong>Add Data Wisata</strong></h1>
 
-					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
 						<div class="row">	
 							<!-- start code on the left side of the page -->
 							<div class="col-lg-6">
@@ -84,10 +84,9 @@ include "proses-add-wisata.php";
 											</div>
 										</div>
 									</div>
-									<div class="mb-3 <?php echo (!empty($image_url_err)) ? 'has-error' : ''; ?>">
+									<div class="mb-3">
                                         <label class="form-label" style="color: black;"><strong>Wisata Image</strong></label>
-										<input type="file" class="input-group form-control" name="image_url" value="<?php echo $image_url; ?>">
-										<span class="help-block"><?php echo $image_url_err; ?></span>
+										<input type="file" class="input-group form-control" name="image_url">
 									</div>
 								</div>
 							</div>

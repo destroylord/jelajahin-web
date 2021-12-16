@@ -48,12 +48,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate image 
-	$input_image_url = $_FILES["image_url"]["name"];
-    if(empty($input_image_url)){
-        $image_url_err = "Please input the image_url.";
-    } else{
-        $image_url = $input_image_url;
-    }
+	$image_url	= $_FILES['image_url']['name'];
+    move_uploaded_file($_FILES['image_url']['tmp_name'], "../img/photos/".$image_url);
 
 	//validate provinsi
 	$input_provinsi = $_POST["propinsi"];
@@ -116,11 +112,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	&& empty($kabupaten_err) && empty($kecamatan_err) && empty($kelurahan_err) && empty($address_err) && empty($latitude_err) && empty($longitude_err)){
         // Prepare an insert statement
         $sql = "INSERT INTO wisata (uuid_wisata, name, description, ticket_price, image_url, provinsi_id, kabupaten_id, kecamatan_id, kelurahan_id, address, latitude, longitude) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		VALUES (?, ?, ?, ?, '$image_url', ?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssbsssssss", $param_uuid_wisata, $param_name, $param_description, $param_ticket_price, $param_image_url, $param_provinsi, 
+            mysqli_stmt_bind_param($stmt, "sssssssssss", $param_uuid_wisata, $param_name, $param_description, $param_ticket_price, $param_provinsi, 
 			$param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
 
             // Set parameters
@@ -128,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_name					= $name;
             $param_description			= $description;
             $param_ticket_price			= $ticket_price;
-			$param_image_url			= $image_url;
+			// $param_image_url			= $image_url;
 			$param_provinsi				= $provinsi;
 			$param_kabupaten			= $kabupaten;
 			$param_kecamatan			= $kecamatan;

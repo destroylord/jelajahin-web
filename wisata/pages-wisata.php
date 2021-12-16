@@ -62,7 +62,7 @@
                                                 while ($data = mysqli_fetch_array($result)) { ?> 
                                                     <tr>
                                                         <td>
-                                                            <img src="/img/photos/<?php echo $data['image_url'] ?>" alt="" width="100" height="100">
+															<?php echo "<img src='../img/photos/$data[image_url]' width='100' height='100' />";?>
                                                         </td>
                                                         <td><?php echo $data['name'] ?></td>
                                                         <td><?php echo $data['address'] ?></td>

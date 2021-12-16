@@ -267,7 +267,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 									<div class="mb-3 <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" style="color: black;"><strong>Wisata Description</strong></label>
 										<textarea class="form-control span12" rows="5" name="description" type="text"
-										placeholder="Enter your Wisata description" value="<?php echo $description; ?>"></textarea>
+										placeholder="Enter your Wisata description"><?php echo $description; ?></textarea>
 											<span class="help-block"><?php echo $description_err; ?></span>
 									</div>
                                 </div>
@@ -286,7 +286,7 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 									</div>
 									<div class="mb-3 <?php echo (!empty($image_url_err)) ? 'has-error' : ''; ?>">
                                         <label class="form-label" style="color: black;"><strong>Wisata Image</strong></label>
-										<input type="file" class="input-group form-control" name="image_url" value="<?php echo $image_url; ?>">
+										<input type="file" class="input-group form-control" name="image_url" value="<?php echo $image_url; ?>"></input>
 										<span class="help-block"><?php echo $image_url_err; ?></span>
 									</div>
 								</div>
@@ -352,19 +352,19 @@ if(isset($_POST["uuid_wisata"]) && !empty($_POST["uuid_wisata"])){
 									<div class="mb-3 <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label">Full Address</label>
 										<textarea class="form-control span12" rows="5" name="address" id="address"
-										placeholder="Enter your restaurant address" value="<?php echo $address; ?>" ></textarea>
+										placeholder="Enter your restaurant address" ><?php echo $address; ?></textarea>
 										<span class="help-block"><?php echo $address_err; ?></span>
 									</div>
 								</div>
 								<div class="form-group col-lg-3">
 									<div class="mb-3 <?php echo (!empty($latitude_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" for="lat">Latitude</label>
-										<input class="form-control form-control-lg" type="text" name="lat" id="lat" placeholder="lat coordinate"value="<?php echo $latitude; ?>" />
+										<input class="form-control form-control-lg" type="text" name="lat" id="lat" placeholder="lat coordinate" value="<?php echo $latitude; ?>" />
 										<span class="help-block"><?php echo $latitude_err; ?></span>
 									</div>
 									<div class="mb-3 <?php echo (!empty($longitude_err)) ? 'has-error' : ''; ?>">
 										<label class="form-label" for="lng">Longitude</label>
-										<input class="form-control form-control-lg" type="text" name="lng" id="lng" placeholder="long coordinate"value="<?php echo $longitude; ?>" />
+										<input class="form-control form-control-lg" type="text" name="lng" id="lng" placeholder="long coordinate" value="<?php echo $longitude; ?>" />
 										<span class="help-block"><?php echo $longitude_err; ?></span>
 									</div>
 									

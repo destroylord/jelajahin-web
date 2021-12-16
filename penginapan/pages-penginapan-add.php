@@ -52,7 +52,7 @@ include "proses-penginapan-add.php";
 				<div class="container-fluid p-0" >
 					<h1 class="mb-3"><strong>Add Data Penginapan</strong></h1>
 
-					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+					<form class="container scrollspy-example" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
 						<div class="row">	
 							<!-- start code on the left side of the page -->
 							<div class="col-lg-6">
@@ -88,10 +88,9 @@ include "proses-penginapan-add.php";
 											</div>
 										</div>
 									</div>
-									<div class="mb-3 <?php echo (!empty($image_err)) ? 'has-error' : ''; ?>">
+									<div class="mb-3">
 										<label class="form-label" style="color: black;"><strong>Hotel Photo</strong></label>
-										<input type="file" class="form-control" name="image" value="<?php echo $image; ?>">
-										<span class="help-block"><?php echo $image_err; ?></span>
+										<input type="file" class="input-group form-control" name="image" >
 									</div>
 								</div>
 							</div>
@@ -110,10 +109,10 @@ include "proses-penginapan-add.php";
 											</select>
 											<span class="help-block"><?php echo $hotel_facility_err; ?></span>
                                         </div>
-                                        <div class="mb-3 <?php echo (!empty($image_err)) ? 'has-error' : ''; ?>">
+                                        <div class="mb-3 <?php echo (!empty($language_err)) ? 'has-error' : ''; ?>">
 											<label class="form-label" style="color: black;"><strong>Language</strong></label>
-											<input type="text" class="form-control" name="language" placeholder="Enter language hotel" value="<?php echo $image; ?>">
-											<span class="help-block"><?php echo $image_err; ?></span>
+											<input type="text" class="form-control" name="language" placeholder="Enter language hotel" value="<?php echo $language; ?>">
+											<span class="help-block"><?php echo $language_err; ?></span>
 										</div>
 										<div class="mb-3 <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
                                             <label class="form-label"style="color: black;"><strong>Phone Number</strong></label>
