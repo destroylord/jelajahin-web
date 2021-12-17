@@ -58,27 +58,35 @@
 												echo "</tr>";
 											echo "</thead>";
 											echo"<tbody>";
-												while ($row = mysqli_fetch_array($result)){
-												echo "<tr>";
-													echo "<td>" 
-													?>
-													<img src="/img/photos/<?php echo $data['image'] ?>" alt="" width="100" height="100">
+											?>
+											<?php
+												while ($row = mysqli_fetch_array($result)){ ?>
+												<tr>
+													<td>
+														<?php echo "<img src='../img/photos/$row[image]' width='100' height='100' />";?>
+													</td>
+													<td><?php echo $row['name'] ?></td>
+													<td><?php echo $row['address'] ?></td>
 													<?php
-													"</td>";
-													echo "<td>" . $row['name'] . "</td>";
-													echo "<td>" . $row['address'] . "</td>";
-													echo "<td>" . $row['price_min'] . $row['price_max'] . "</td>";
-													echo "<td>";
-														echo "<a href='pages-menu-restaurant.php?uuid_restaurant=". $row['uuid_restaurant'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>";
-													echo "</td>";
-													echo "<td>";
+													echo "<td>" . $row['price_min'] .- $row['price_max'] . "</td>";
+													?>
+													<td>
+														<?php
+														echo "<a href='pages-menu-restaurant.php?uuid_restaurant=". $row['uuid_restaurant'] ."' title='Food Menu' data-toggle='tooltip'><span class='align-middle mx-2' data-feather='book' style='color: black;'></span></a>"; ?>
+													</td>
+													<td>
+														<?php
 														echo "<a href='update-restaurant.php?uuid_restaurant=". $row['uuid_restaurant'] ."' title='Update Record' data-toggle='tooltip'><span class='align-middle mx-2 ' data-feather='edit-3' style='color: black;'></span></a>";
 														echo "<a href='delete-restaurant.php?uuid_restaurant=". $row['uuid_restaurant'] ."' title='Delete Record' data-toggle='tooltip'><span class='align-middle mx-auto' data-feather='trash' style='color: black;'></span></a>";
-													echo "</td>";
-												echo "</tr>";
-												}
-											echo"</tbody>";
-										echo"</table>";
+														?>
+													</td>
+												</tr>
+												<?php
+                                                }
+                                            ?>
+											</tbody>
+										</table>
+										<?php
 										// Free result set
 										mysqli_free_result($result);
 									} else{

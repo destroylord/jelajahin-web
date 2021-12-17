@@ -90,12 +90,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 	// Validate image 
-    if(isset($_FILES['image']['name'])){
-        $image = $_FILES['image']['name'];
-        $temp_name  = $_FILES['image']['temp_name'];
-        $folder = "/img/photos/".$image;
-        move_uploaded_file($temp_name, $folder);
-    }
+    $image	= $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], "./uploads/".$image);
 
 	//validate provinsi
 	$input_provinsi = $_POST["propinsi"];
@@ -158,12 +154,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	&& empty ($phone_err) && empty($website_err) && empty($image_err) && empty($language_err) && empty($provinsi_err) && empty($kabupaten_err) && empty($kecamatan_err) && empty($kelurahan_err) && empty($address_err) && empty($latitude_err) && empty($longitude_err)){
         // Prepare an insert statement
         $sql = "INSERT INTO penginapan (uuid_penginapan, name, description, price_min, price_max, hotel_facility, phone, website, image, language, provinsi_id, kabupaten_id, kecamatan_id, kelurahan_id, address, latitude, longitude) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, '$image', ?, ?, ?, ?, ?, ?, ?, ?)";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssssssssbsssssss", $param_uuid_penginapan, $param_name, $param_description, $param_price_min, $param_price_max, $param_hotel_facility, $param_phone, 
-            $param_website, $param_image, $param_laguage, $param_provinsi, $param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
+            mysqli_stmt_bind_param($stmt, "ssssssssssssssss", $param_uuid_penginapan, $param_name, $param_description, $param_price_min, $param_price_max, $param_hotel_facility, $param_phone, 
+            $param_website,  $param_laguage, $param_provinsi, $param_kabupaten, $param_kecamatan, $param_kelurahan, $param_address, $param_latitude, $param_longitude);
 
             // Set parameters
 			$param_uuid_penginapan	= $uuid_penginapan;
@@ -174,7 +170,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$param_hotel_facility	= $hotel_facility;
 			$param_phone			= $phone;
 			$param_website			= $website;
-			$param_image			= $image;
+			// $param_image			= $image;
             $param_laguage          = $language;
 			$param_provinsi			= $provinsi;
 			$param_kabupaten		= $kabupaten;
