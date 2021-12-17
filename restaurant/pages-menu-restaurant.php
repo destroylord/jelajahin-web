@@ -54,6 +54,7 @@ function uuid($data  =  null) {
 function tambah($link){
     
     if (isset($_POST['aksi'])){
+
         $uuid_menu = uuid();
         $category = $_POST['category'];
         $name = $_POST['name'];
@@ -80,6 +81,7 @@ function tambah($link){
                 <div class="col-lg-6">
                     <div class="form-group">
                         <div class="mb-3">
+
                             <label class=" form-label" style="color: black;"><strong>Food Category</strong></label>
                             <select name="category" class="form-select">
                                 <option >Makanan</option>
@@ -89,6 +91,14 @@ function tambah($link){
                             </select>
                         </div>
                         <div class="mb-3">
+
+                        <?php
+                            $id = $_GET['uuid_restaurant'];
+
+                            $sql = "SELECT * FROM restaurant WHERE uuid_restaurant = '$id'";
+                            $data = mysqli_fetch_array(mysqli_query($link,$sql));
+                        ?>
+                            <input type="text" value="<?=$data['uuid_restaurant']?>">
                             <label class=" form-label" style="color: black;"><strong>Food Name</strong></label>
                             <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Enter food name">      
                         </div>
@@ -132,7 +142,8 @@ function tampil_data($link){
         echo "<div class='col-12'>";
             echo "<div class='card'>";
                 echo "<div class='card-body'>";
-                    $sql = "SELECT * FROM menu";
+                    $id = $_GET['uuid_restaurant'];
+                    $sql = "SELECT * FROM menu WHERE uuid_restaurant = '$id'";
                     $query = mysqli_query($link, $sql);
                     
                     echo "<table class='table table-hover my-0'>";
@@ -150,11 +161,11 @@ function tampil_data($link){
                             while($data = mysqli_fetch_array($query)){
                             ?>
                                 <tr>
-                                    <td><?php echo $data['image_url']; ?></td>
+                                    <td><img src="<?php echo $data['image_url']; ?>" alt=""></td>
                                     <td><?php echo $data['name']; ?></td>
                                     <td><?php echo $data['description']; ?> Kg</td>
                                     <td><?php echo $data['price']; ?> bulan</td>
-                                    <td><?php echo $data['category']; ?></td>
+                                    <td><?php echo $data['food_category']; ?></td>
                                     <td>
                                         <a href="pages-menu-restaurant.php?aksi=update&uuid_menu=<?php echo $data['uuid_menu']; ?>&name=<?php echo $data['name']; ?>&description=<?php echo $data['description']; ?>&price=<?php echo $data['price']; ?>&category=<?php echo $data['category']; ?>&image_url=<?php echo $data['image_url']; ?>">Ubah</a> |
                                         <a href="pages-menu-restaurant.php?aksi=delete&uuid_menu=<?php echo $data['uuid_menu']; ?>">Hapus</a>
