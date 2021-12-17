@@ -55,27 +55,32 @@ function tambah($link){
     
     if (isset($_POST['aksi'])){
 
-        $uuid_menu = uuid();
-        $category = $_POST['category'];
-        $name = $_POST['name'];
-        $description = $_POST['description'];
-        $price  = $_POST['price'];
-        $image_url = $_POST['image_url'];
+        $uuid_menu          = uuid();
+        $uuid_restaurant    = $_POST['uuid_restaurant'];
+        $name               = $_POST['name'];
+        $category           = $_POST['category'];
+        $description        = $_POST['description'];
+        $price              = $_POST['price'];
+
+        $image               = $_FILES['image_url']['name'];
+        move_uploaded_file($_FILES['image_url']['tmp_name'], "./uploads/menu_restaurant/".$image);
         
-        if(!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($image_url)){
-            $sql = "INSERT INTO menu (uuid_menu, category, name, description, price, image_url) VALUES(".$uuid_menu.",'".$category."','".$name."','".$description."','".$price."','".$image_url."')";
-            $simpan = mysqli_query($link, $sql);
-            if($simpan && isset($_GET['aksi'])){
-                if($_GET['aksi'] == 'create'){
-                    header('location: pages-menu-restaurant.php');
-                }
+        if(!empty($category) && !empty($name) && !empty($description) && !empty($price)){
+
+            $sql = "INSERT INTO `menu`(`uuid_menu`, `uuid_restaurant`, `name`, `description`, `price`, `food_category`, `image_url`) VALUES ('$uuid_menu','$uuid_restaurant','$name','$description','$price','$category','$image')";
+
+            $ex = mysqli_query($link, $sql);
+
+            if ($ex) {
+                echo "Berhasil menyimpan";
+            } else {
+                echo "gagal menyimpan";
             }
-        } else {
-            $pesan = "Tidak dapat menyimpan, data belum lengkap!";
+            
         }
     }
     ?> 
-        <form class="container" action="" method="post">
+        <form class="container" action="" method="post" enctype="multipart/form-data">
             <div class="row">	
                 <!-- start code on the left side of the page -->
                 <div class="col-lg-6">
@@ -98,7 +103,7 @@ function tambah($link){
                             $sql = "SELECT * FROM restaurant WHERE uuid_restaurant = '$id'";
                             $data = mysqli_fetch_array(mysqli_query($link,$sql));
                         ?>
-                            <input type="text" value="<?=$data['uuid_restaurant']?>">
+                            <input type="hidden" value="<?=$data['uuid_restaurant']?>" readonly name="uuid_restaurant">
                             <label class=" form-label" style="color: black;"><strong>Food Name</strong></label>
                             <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Enter food name">      
                         </div>
@@ -161,7 +166,7 @@ function tampil_data($link){
                             while($data = mysqli_fetch_array($query)){
                             ?>
                                 <tr>
-                                    <td><img src="<?php echo $data['image_url']; ?>" alt=""></td>
+                                    <td><img src="uploads/menu_restaurant/<?php echo $data['image_url']; ?>" alt="" width="50" height="50"></td>
                                     <td><?php echo $data['name']; ?></td>
                                     <td><?php echo $data['description']; ?> Kg</td>
                                     <td><?php echo $data['price']; ?> bulan</td>
